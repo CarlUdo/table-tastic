@@ -5,7 +5,9 @@ export const createApp = () => {
   
   app.use(express.json());
 
-  app.get("/", (req: Request, res: Response) => {
-    res.status(200).json();
+  app.get("/status", (req: Request, res: Response) => {
+    res.status(200).json({ message: "Server is up and running!" });
   });
+
+  return app;
 };
