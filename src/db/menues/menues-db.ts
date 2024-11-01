@@ -1,3 +1,1 @@
-export const menuesDb = [
-
-];
+export const menuesDb = [];

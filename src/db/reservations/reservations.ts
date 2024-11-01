@@ -1,3 +1,1 @@
-export const reservationsDb = [
-
-];
+export const reservationsDb = [];
