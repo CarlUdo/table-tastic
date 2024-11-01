@@ -5,7 +5,7 @@ import { menuesDb } from "./db/menues/menues-db";
 import { reservationsDb } from "./db/reservations/reservations";
 
 export const createApp = () => {
-  const menuesRouter = createMenuesRouter(menuesDb).getRouter();
+  const   menuesRouter = createMenuesRouter(menuesDb).getRouter();
   const reservationsRouter =
     createReservationsRouter(reservationsDb).getRouter();
 
@@ -19,7 +19,7 @@ export const createApp = () => {
 
   app.use("/api/v1/menues", menuesRouter);
 
-  app.use("/api/vi/reservations", reservationsRouter);
+  app.use("/api/v1/reservations", reservationsRouter);
 
   return app;
 };
