@@ -4,6 +4,7 @@ import { deepEqual, equal } from "node:assert/strict";
 import { createApp } from "../src/app";
 import {
   INVALID_ID,
+  INVALID_MENU,
   MENU_NOT_FOUND,
   MENUS_BASE_URL,
 } from "../src/libs/constants";
@@ -18,7 +19,7 @@ test("GET /status", async () => {
   equal(response.status, 200);
 });
 
-test("GET all menus returns 200 status", async () => {
+test("GET all menus should return 200 status", async () => {
   const app = createApp();
 
   const response = await request(app).get(MENUS_BASE_URL);
@@ -26,7 +27,7 @@ test("GET all menus returns 200 status", async () => {
   equal(response.status, 200);
 });
 
-test("GET all menus returns 3 menus", async () => {
+test("GET all menus should return 3 menus", async () => {
   const app = createApp();
 
   const response = await request(app).get(MENUS_BASE_URL);
@@ -34,7 +35,7 @@ test("GET all menus returns 3 menus", async () => {
   equal(response.body.length, 3);
 });
 
-test("GET all menus includes breakfast menu", async () => {
+test("GET all menus should include breakfast menu", async () => {
   const app = createApp();
 
   const breakfastMenu: Menu = {
@@ -88,6 +89,22 @@ test("GET menu id 1 should return 'Invalid ID format'", async () => {
   const responseBody = (await request(app).get(`${MENUS_BASE_URL}/1`)).body;
 
   equal(responseBody.error.message, INVALID_ID);
+});
+
+test("POST wrong menu should return 'Invalid menu format'", async () => {
+  const app = createApp();
+
+  const invalidMenu = {
+    name: "Invalid Menu",
+    dishes: ["Ham", "Carrots"],
+  };
+
+  const response = await request(app)
+    .post(MENUS_BASE_URL)
+    .send(invalidMenu)
+    .expect(400);
+
+  equal(response.body.error.message, INVALID_MENU);
 });
 
 /* Testing reservations router */
