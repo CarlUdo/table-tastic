@@ -10,6 +10,7 @@ import {
   MENUS_BASE_URL,
 } from "../src/libs/constants";
 import type { Menu } from "../src/db/menus/menus-db";
+import type { MenuSchema } from "../src/validation";
 
 /* Testing menus router */
 test("GET /status", async () => {
@@ -31,9 +32,9 @@ test("GET all menus should return 200 status", async () => {
 test("GET all menus should return 3 menus", async () => {
   const app = createApp();
 
-  const response = await request(app).get(MENUS_BASE_URL);
+  const responseBody: Menu[] = (await request(app).get(MENUS_BASE_URL)).body;
 
-  equal(response.body.length, 3);
+  equal(responseBody.length, 3);
 });
 
 test("GET all menus should include breakfast menu", async () => {
@@ -111,7 +112,7 @@ test("POST wrong menu format should return 'Invalid menu format.'", async () => 
 test("POST if menu exists it should return 'Menu already exists.'", async () => {
   const app = createApp();
 
-  const existingMenu = {
+  const existingMenu: MenuSchema = {
     name: "Breakfast Menu",
     dishes: ["Pancakes", "Omelette"],
   };
@@ -127,17 +128,14 @@ test("POST if menu exists it should return 'Menu already exists.'", async () => 
 test("POST valid menu should return the created menu", async () => {
   const app = createApp();
 
-  const validMenu = {
+  const validMenu: MenuSchema = {
     name: "Breakfast Menu",
     dishes: ["Porridge", "Toast"],
   };
 
-  const response = await request(app)
-    .post(MENUS_BASE_URL)
-    .send(validMenu)
-    .expect(201);
-
-  const responseBody = response.body;
+  const responseBody: Menu = (
+    await request(app).post(MENUS_BASE_URL).send(validMenu).expect(201)
+  ).body;
 
   equal(responseBody.name, validMenu.name);
   equal(responseBody.dishes.length, validMenu.dishes.length);
@@ -165,19 +163,21 @@ test("PATCH wrong menu format should return 'Invalid menu format.'", async () =>
 test("PATCH for invalid id format should return 'Invalid ID format.'", async () => {
   const app = createApp();
 
-  const validMenu = {
+  const validMenu: MenuSchema = {
     name: "Lunch Menu",
     dishes: ["Burger", "Salad"],
   };
 
   const inValidIdFormat = "2";
 
-  const response = await request(app)
-    .patch(`${MENUS_BASE_URL}/${inValidIdFormat}`)
-    .send(validMenu)
-    .expect(400);
+  const responseBody = (
+    await request(app)
+      .patch(`${MENUS_BASE_URL}/${inValidIdFormat}`)
+      .send(validMenu)
+      .expect(400)
+  ).body;
 
-  equal(response.body.error.message, INVALID_ID);
+  equal(responseBody.error.message, INVALID_ID);
 });
 
 test("PATCH for id that doesn't exist should return 'Menu not found.'", async () => {
@@ -201,25 +201,27 @@ test("PATCH for id that doesn't exist should return 'Menu not found.'", async ()
 test("PATCH a successful update should return 200 and an updated menu'", async () => {
   const app = createApp();
 
-  const validMenu = {
+  const validMenu: MenuSchema = {
     name: "Dinner Menu",
     dishes: ["Steak", "Pasta", "Meatloaf"],
   };
 
   const validId = "42995559-2641-4d33-85e9-9043373fc6bf";
 
-  const response = await request(app)
-    .patch(`${MENUS_BASE_URL}/${validId}`)
-    .send(validMenu)
-    .expect(200);
+  const responseBody: Menu = (
+    await request(app)
+      .patch(`${MENUS_BASE_URL}/${validId}`)
+      .send(validMenu)
+      .expect(200)
+  ).body;
 
-  deepEqual(response.body.dishes, validMenu.dishes);
+  deepEqual(responseBody.dishes, validMenu.dishes);
 });
 
 test("PATCH an update where same data as existing is sent should return 204'", async () => {
   const app = createApp();
 
-  const validMenu = {
+  const validMenu: MenuSchema = {
     name: "Dinner Menu",
     dishes: ["Steak", "Pasta"],
   };
@@ -247,7 +249,7 @@ test("DELETE menu for id that doesn't exist should return 'Menu not found.'", as
 test("DELETE menu id '42995559-2641-4d33-85e9-9043373fc6bf' should return deleted menu.", async () => {
   const app = createApp();
 
-  const deletedMenu = {
+  const deletedMenu: Menu = {
     id: "fd9c2bf1-8540-4ed9-9be7-155877262259",
     name: "Lunch Menu",
     dishes: ["Burger", "Salad"],
@@ -255,7 +257,7 @@ test("DELETE menu id '42995559-2641-4d33-85e9-9043373fc6bf' should return delete
 
   const idToDelete = "fd9c2bf1-8540-4ed9-9be7-155877262259";
 
-  const responseBody = (
+  const responseBody: Menu = (
     await request(app).get(`${MENUS_BASE_URL}/${idToDelete}`).expect(200)
   ).body;
 
