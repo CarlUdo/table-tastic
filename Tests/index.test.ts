@@ -108,7 +108,7 @@ test("POST wrong menu should return 'Invalid menu format.'", async () => {
   equal(response.body.error.message, INVALID_MENU);
 });
 
-test("POST if menu exists it should return 'Menu already exixts.'", async () => {
+test("POST if menu exists it should return 'Menu already exists.'", async () => {
   const app = createApp();
 
   const existingMenu = {
@@ -144,6 +144,22 @@ test("POST valid menu should return the created menu", async () => {
   responseBody.dishes.forEach((dish: string, index: number) => {
     equal(dish, validMenu.dishes[index]);
   });
+});
+
+test("PATCH wrong menu should return 'Invalid menu format.'", async () => {
+  const app = createApp();
+
+  const invalidMenu = {
+    name: "Invalid Menu",
+    dishes: ["Meatballs", "Icecream"],
+  };
+
+  const response = await request(app)
+    .patch(`${MENUS_BASE_URL}/9de3faf7-36f3-4449-b4b5-7c3393f00e10`)
+    .send(invalidMenu)
+    .expect(400);
+
+  equal(response.body.error.message, INVALID_MENU);
 });
 
 /* Testing reservations router */
