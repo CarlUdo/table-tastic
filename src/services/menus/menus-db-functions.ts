@@ -26,3 +26,12 @@ export const getById = async (id: string): Promise<Menu> => {
     }, 100);
   });
 };
+
+export const addItem = async (menu: Menu): Promise<Menu> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      menusDb.push(menu);
+      resolve(menu);
+    });
+  });
+};
