@@ -27,7 +27,7 @@ export const getById = async (id: string): Promise<Menu> => {
   });
 };
 
-export const addItem = async (menu: Menu): Promise<Menu> => {
+export const create = async (menu: Menu): Promise<Menu> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const exists = menusDb.some(
@@ -43,6 +43,29 @@ export const addItem = async (menu: Menu): Promise<Menu> => {
 
       menusDb.push(menu);
       resolve(menu);
+    }, 100);
+  });
+};
+
+export const update = async (menu: Menu): Promise<Menu> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const menuToUpdate = menusDb.find((dbMenu) => dbMenu.id === menu.id);
+
+      if (!menuToUpdate) {
+        reject(new Error(MENU_NOT_FOUND));
+        return;
+      }
+
+      const dishesToAdd = menu.dishes.filter(
+        (dish) => !menuToUpdate.dishes.includes(dish),
+      );
+
+      resolve({
+        id: menu.id,
+        name: menuToUpdate.name,
+        dishes: [...menuToUpdate.dishes, ...dishesToAdd],
+      });
     }, 100);
   });
 };
