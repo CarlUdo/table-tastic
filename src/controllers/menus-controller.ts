@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { addItem, getAll, getById } from "../services/menus/menus-db-functions";
+import {
+  getAll,
+  getById,
+  create,
+  update,
+} from "../services/menus/menus-db-functions";
 import { idSchema, menuSchema } from "../validation";
 import {
   GENERAL_SERVER_ERROR,
@@ -64,7 +69,7 @@ export const addMenu = async (req: Request, res: Response) => {
       ...validationResult.data,
     };
 
-    await addItem(newMenu);
+    await create(newMenu);
 
     res.status(201).json(newMenu);
   } catch (error) {
@@ -72,6 +77,44 @@ export const addMenu = async (req: Request, res: Response) => {
       let statusCode = 500;
       if (error.message === MENU_EXISTS) statusCode = 409;
       res.status(statusCode).json({ error: { message: error.message } });
+      return;
+    }
+    res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
+  }
+};
+
+export const updateMenu = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const menu = req.body;
+
+    const idValidationResult = idSchema.safeParse(id);
+
+    const menuValidationResult = menuSchema.safeParse(menu);
+
+    if (!idValidationResult.success) {
+      res.status(400).json({ error: { message: INVALID_ID } });
+      return;
+    }
+
+    if (!menuValidationResult.success) {
+      res.status(400).json({ error: { message: INVALID_MENU } });
+      return;
+    }
+
+    const menuToUpdate = {
+      id: idValidationResult.data,
+      name: menuValidationResult.data.name,
+      dishes: menuValidationResult.data.dishes,
+    };
+
+    const updatedMenu = await update(menuToUpdate);
+
+    res.status(200).json(updatedMenu);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
