@@ -244,4 +244,20 @@ test("DELETE menu for id that doesn't exist should return 'Menu not found.'", as
   equal(responseBody.error.message, MENU_NOT_FOUND);
 });
 
-/* Testing reservations router */
+test("DELETE menu id '42995559-2641-4d33-85e9-9043373fc6bf' should return deleted menu.", async () => {
+  const app = createApp();
+
+  const deletedMenu = {
+    id: "fd9c2bf1-8540-4ed9-9be7-155877262259",
+    name: "Lunch Menu",
+    dishes: ["Burger", "Salad"],
+  };
+
+  const idToDelete = "fd9c2bf1-8540-4ed9-9be7-155877262259";
+
+  const responseBody = (
+    await request(app).get(`${MENUS_BASE_URL}/${idToDelete}`).expect(200)
+  ).body;
+
+  deepEqual(responseBody, deletedMenu);
+});
