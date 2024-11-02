@@ -2,7 +2,7 @@ import test from "node:test";
 import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
 import { createApp } from "../src/app";
-import { invalidId, MENUS_BASE_URL } from "../src/libs/constants";
+import { INVALID_ID, MENUS_BASE_URL } from "../src/libs/constants";
 import type { Menu } from "../src/db/menus/menus-db";
 
 test("GET /status", async () => {
@@ -64,6 +64,6 @@ test("GET menu id 1 should return 'Invalid ID format'", async () => {
 
   const responseBody = (await request(app).get(`${MENUS_BASE_URL}/1`)).body;
 
-  equal(responseBody.error.message, invalidId);
+  equal(responseBody.error.message, INVALID_ID);
 });
 
