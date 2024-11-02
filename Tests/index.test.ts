@@ -2,9 +2,14 @@ import test from "node:test";
 import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
 import { createApp } from "../src/app";
-import { INVALID_ID, MENUS_BASE_URL } from "../src/libs/constants";
+import {
+  INVALID_ID,
+  MENU_NOT_FOUND,
+  MENUS_BASE_URL,
+} from "../src/libs/constants";
 import type { Menu } from "../src/db/menus/menus-db";
 
+/* Testing menus router */
 test("GET /status", async () => {
   const app = createApp();
 
@@ -40,9 +45,23 @@ test("GET all menus includes breakfast menu", async () => {
 
   const responseBody: Menu[] = (await request(app).get(MENUS_BASE_URL)).body;
 
-  const breakfastMenuExists = responseBody.some(menu => JSON.stringify(menu) === JSON.stringify(breakfastMenu));
+  const breakfastMenuExists = responseBody.some(
+    (menu) => JSON.stringify(menu) === JSON.stringify(breakfastMenu),
+  );
 
   equal(true, breakfastMenuExists);
+});
+
+test("GET menu for id should return 'Menu not found' when database id doesn't exist", async () => {
+  const app = createApp();
+
+  const idNotInDb = "9de3faf7-36f3-4449-b4b5-7c3393f00e19";
+
+  const responseBody = (
+    await request(app).get(`${MENUS_BASE_URL}/${idNotInDb}`)
+  ).body;
+
+  equal(responseBody.error.message, MENU_NOT_FOUND);
 });
 
 test("GET menu id '42995559-2641-4d33-85e9-9043373fc6bf' should return dinner menu", async () => {
@@ -54,16 +73,21 @@ test("GET menu id '42995559-2641-4d33-85e9-9043373fc6bf' should return dinner me
     dishes: ["Steak", "Pasta"],
   };
 
-  const responseBody: Menu[] = (await request(app).get(`${MENUS_BASE_URL}/42995559-2641-4d33-85e9-9043373fc6bf`)).body;
+  const responseBody: Menu[] = (
+    await request(app).get(
+      `${MENUS_BASE_URL}/42995559-2641-4d33-85e9-9043373fc6bf`,
+    )
+  ).body;
 
   deepEqual(responseBody, dinnerMenu);
 });
 
 test("GET menu id 1 should return 'Invalid ID format'", async () => {
-  const app = createApp();  
+  const app = createApp();
 
   const responseBody = (await request(app).get(`${MENUS_BASE_URL}/1`)).body;
 
   equal(responseBody.error.message, INVALID_ID);
 });
 
+/* Testing reservations router */
