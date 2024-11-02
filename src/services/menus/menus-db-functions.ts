@@ -4,6 +4,7 @@
 
 import { menusDb } from "../../db/menus/menus-db";
 import type { Menu } from "../../db/menus/menus-db";
+import { MENU_NOT_FOUND } from "../../libs/constants";
 
 export const getAll = async (): Promise<Menu[]> => {
   return new Promise((resolve) => {
@@ -17,7 +18,7 @@ export const getById = async (id: string): Promise<Menu> => {
       const menu = menusDb.find((menu) => menu.id === id);
 
       if (!menu) {
-        reject(new Error("Menu not found"));
+        reject(new Error(MENU_NOT_FOUND));
         return;
       }
 
