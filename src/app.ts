@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { createMenusRouter } from "./routes/menus-router";
 import { createReservationsRouter } from "./routes/reservations-router";
+import { MENUS_BASE_URL } from "./libs/constants";
 
 export const createApp = () => {
   const menusRouter = createMenusRouter();
@@ -14,7 +15,7 @@ export const createApp = () => {
     res.status(200).json({ message: "Server is up and running!" });
   });
 
-  app.use("/api/v1/menus", menusRouter);
+  app.use(MENUS_BASE_URL, menusRouter);
 
   app.use("/api/v1/reservations", reservationsRouter);
 
