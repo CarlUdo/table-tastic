@@ -166,8 +166,8 @@ test("PATCH for invalid id format should return 'Invalid ID format.'", async () 
   const app = createApp();
 
   const validMenu = {
-    name: "Invalid Menu",
-    dishes: ["Meatballs", "Icecream"],
+    name: "Lunch Menu",
+    dishes: ["Burger", "Salad"],
   };
 
   const inValidIdFormat = "2";
@@ -178,6 +178,24 @@ test("PATCH for invalid id format should return 'Invalid ID format.'", async () 
     .expect(400);
 
   equal(response.body.error.message, INVALID_ID);
+});
+
+test("PATCH for id that doesn't exist should return 'Menu not found.'", async () => {
+  const app = createApp();
+
+  const validMenu = {
+    name: "Lunch Menu",
+    dishes: ["Burger", "Salad"],
+  };
+
+  const nonExistingId = "fd9c2bf1-8540-4ed9-9be7-155877262250";
+
+  const response = await request(app)
+    .patch(`${MENUS_BASE_URL}/${nonExistingId}`)
+    .send(validMenu)
+    .expect(500);
+
+  equal(response.body.error.message, MENU_NOT_FOUND);
 });
 
 /* Testing reservations router */
