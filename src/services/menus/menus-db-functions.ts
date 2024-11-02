@@ -15,7 +15,7 @@ export const getAll = async (): Promise<Menu[]> => {
 export const getById = async (id: string): Promise<Menu> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const menu = menusDb.find((menu) => menu.id === id);
+      const menu = menusDb.find((dbMenu) => dbMenu.id === id);
 
       if (!menu) {
         reject(new Error(MENU_NOT_FOUND));
@@ -71,6 +71,26 @@ export const update = async (menu: Menu): Promise<Menu | ""> => {
         name: menuToUpdate.name,
         dishes: [...menuToUpdate.dishes, ...dishesToAdd],
       });
+    }, 100);
+  });
+};
+
+export const remove = async (id: string): Promise<Menu> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const menu = menusDb.find((dbMenu) => dbMenu.id === id);
+
+      if (!menu) {
+        reject(new Error(MENU_NOT_FOUND));
+        return;
+      }
+
+      const updatedMenusDb = menusDb.filter((dbMenu) => dbMenu.id !== id);
+
+      menusDb.length = 0;
+      menusDb.push(...updatedMenusDb);
+
+      resolve(menu);
     }, 100);
   });
 };
