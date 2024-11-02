@@ -198,4 +198,22 @@ test("PATCH for id that doesn't exist should return 'Menu not found.'", async ()
   equal(response.body.error.message, MENU_NOT_FOUND);
 });
 
+test("PATCH a successful update should return 200 and an updated menu'", async () => {
+  const app = createApp();
+
+  const validMenu = {
+    name: "Dinner Menu",
+    dishes: ["Steak", "Pasta", "Meatloaf"],
+  };
+
+  const validId = "42995559-2641-4d33-85e9-9043373fc6bf";
+
+  const response = await request(app)
+    .patch(`${MENUS_BASE_URL}/${validId}`)
+    .send(validMenu)
+    .expect(200);
+
+  deepEqual(response.body.dishes, validMenu.dishes);
+});
+
 /* Testing reservations router */
