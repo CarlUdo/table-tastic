@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { getAll, getById } from "../services/menues/menues-db-functions";
+import { getAll, getById } from "../services/menus/menus-db-functions";
 import { idSchema } from "../validation";
 
-export const getAllMenues = async (req: Request, res: Response) => {
+export const getAllMenus = async (req: Request, res: Response) => {
   try {
-    const menues = await getAll();
+    const menus = await getAll();
 
-    res.status(200).json(menues);
+    res.status(200).json(menus);
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
@@ -14,7 +14,7 @@ export const getAllMenues = async (req: Request, res: Response) => {
     }
     res
       .status(500)
-      .json({ error: "Something went wrong when getting all menues." });
+      .json({ error: "Something went wrong when getting all menus." });
   }
 };
 

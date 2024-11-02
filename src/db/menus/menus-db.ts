@@ -6,7 +6,7 @@ export type Menu = {
   dishes: string[];
 };
 
-export const menuesDb: Menu[] = [
+export const menusDb: Menu[] = [
   {
     id: "9de3faf7-36f3-4449-b4b5-7c3393f00e10",
     name: "Breakfast Menu",
