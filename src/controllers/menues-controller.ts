@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { getAll, getById } from "../services/menues/menues-db-functions";
+import { idSchema } from "../validation";
 
 export const getAllMenues = async (req: Request, res: Response) => {
   try {
@@ -21,7 +22,14 @@ export const getMenu = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const menu = await getById(id);
+    const validationResult = idSchema.safeParse(id);
+
+    if (!validationResult.success) {
+      res.status(400).json({ error: "Invalid ID format" });
+      return;
+    }
+
+    const menu = await getById(validationResult.data);
 
     res.status(200).json(menu);
   } catch (error) {
