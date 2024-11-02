@@ -1,16 +1,16 @@
 import test from "node:test";
 import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
-import { createApp } from "../src/app";
+import { createApp } from "../../src/app";
 import {
   INVALID_ID,
   INVALID_MENU,
   MENU_EXISTS,
   MENU_NOT_FOUND,
   MENUS_BASE_URL,
-} from "../src/libs/constants";
-import type { Menu } from "../src/db/menus/menus-db";
-import type { MenuSchema } from "../src/validation";
+} from "../../src/libs/constants";
+import type { Menu } from "../../src/db/menus/menus-db";
+import type { MenuSchema } from "../../src/validation";
 
 /* Testing menus router */
 test("GET /status", async () => {
