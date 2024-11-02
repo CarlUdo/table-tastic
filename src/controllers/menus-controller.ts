@@ -140,7 +140,9 @@ export const deleteMenu = async (req: Request, res: Response) => {
 
     const menu = await remove(validationResult.data);
 
-    res.status(200).json(menu);
+    res
+      .status(200)
+      .json({ message: "Resource successfully deleted", deletedMenu: menu });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: { message: error.message } });
