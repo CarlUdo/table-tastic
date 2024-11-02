@@ -232,4 +232,16 @@ test("PATCH an update where same data as existing is sent should return 204'", a
     .expect(204);
 });
 
+test("DELETE menu for id that doesn't exist should return 'Menu not found.'", async () => {
+  const app = createApp();
+
+  const idNotInDb = "9de3faf7-36f3-4449-b4b5-7c3393f00e89";
+
+  const responseBody = (
+    await request(app).get(`${MENUS_BASE_URL}/${idNotInDb}`)
+  ).body;
+
+  equal(responseBody.error.message, MENU_NOT_FOUND);
+});
+
 /* Testing reservations router */
