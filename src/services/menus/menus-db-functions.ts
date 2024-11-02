@@ -47,7 +47,7 @@ export const create = async (menu: Menu): Promise<Menu> => {
   });
 };
 
-export const update = async (menu: Menu): Promise<Menu> => {
+export const update = async (menu: Menu): Promise<Menu | ""> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const menuToUpdate = menusDb.find((dbMenu) => dbMenu.id === menu.id);
@@ -60,6 +60,11 @@ export const update = async (menu: Menu): Promise<Menu> => {
       const dishesToAdd = menu.dishes.filter(
         (dish) => !menuToUpdate.dishes.includes(dish),
       );
+
+      if (dishesToAdd.length === 0) {
+        resolve("");
+        return;
+      }
 
       resolve({
         id: menu.id,
