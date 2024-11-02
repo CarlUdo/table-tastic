@@ -1,16 +1,10 @@
-import express, { Request, Response } from "express";
-import { menuesDb as db } from "../db/menues/menues-db";
+import express from "express";
+import { getAllMenues } from "../controllers/menues-controller";
 
-export const createMenuesRouter = (db) => {
-  return {
-    getRouter: () => {
-      const router = express.Router();
-      
-      router.get("/", (req: Request, res: Response) => {
-        res.status(200).json("Hello from Menues router");
-      });
+export const createMenuesRouter = () => {
+  const router = express.Router();
 
-      return router;
-    },
-  };
+  router.get("/", getAllMenues);
+
+  return router;
 };
