@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addMenu,
+  deleteMenu,
   getAllMenus,
   getMenu,
   updateMenu,
@@ -13,6 +14,7 @@ export const createMenusRouter = () => {
   router.get("/:id", getMenu);
   router.post("/", addMenu);
   router.patch("/:id", updateMenu);
+  router.delete("/:id", deleteMenu);
 
   return router;
 };
