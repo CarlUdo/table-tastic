@@ -216,4 +216,20 @@ test("PATCH a successful update should return 200 and an updated menu'", async (
   deepEqual(response.body.dishes, validMenu.dishes);
 });
 
+test("PATCH an update where same data as existing is sent should return 204'", async () => {
+  const app = createApp();
+
+  const validMenu = {
+    name: "Dinner Menu",
+    dishes: ["Steak", "Pasta"],
+  };
+
+  const validId = "42995559-2641-4d33-85e9-9043373fc6bf";
+
+  await request(app)
+    .patch(`${MENUS_BASE_URL}/${validId}`)
+    .send(validMenu)
+    .expect(204);
+});
+
 /* Testing reservations router */
