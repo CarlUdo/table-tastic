@@ -54,7 +54,7 @@ test("GET all menus should include breakfast menu", async () => {
   equal(true, breakfastMenuExists);
 });
 
-test("GET menu for id should return 'Menu not found.' when database id doesn't exist", async () => {
+test("GET menu for id that doesn't exist should return 'Menu not found.'", async () => {
   const app = createApp();
 
   const idNotInDb = "9de3faf7-36f3-4449-b4b5-7c3393f00e19";
@@ -92,7 +92,7 @@ test("GET menu id 1 should return 'Invalid ID format.'", async () => {
   equal(responseBody.error.message, INVALID_ID);
 });
 
-test("POST wrong menu should return 'Invalid menu format.'", async () => {
+test("POST wrong menu format should return 'Invalid menu format.'", async () => {
   const app = createApp();
 
   const invalidMenu = {
@@ -146,7 +146,7 @@ test("POST valid menu should return the created menu", async () => {
   });
 });
 
-test("PATCH wrong menu should return 'Invalid menu format.'", async () => {
+test("PATCH wrong menu format should return 'Invalid menu format.'", async () => {
   const app = createApp();
 
   const invalidMenu = {
@@ -160,6 +160,24 @@ test("PATCH wrong menu should return 'Invalid menu format.'", async () => {
     .expect(400);
 
   equal(response.body.error.message, INVALID_MENU);
+});
+
+test("PATCH for invalid id format should return 'Invalid ID format.'", async () => {
+  const app = createApp();
+
+  const validMenu = {
+    name: "Invalid Menu",
+    dishes: ["Meatballs", "Icecream"],
+  };
+
+  const inValidIdFormat = "2";
+
+  const response = await request(app)
+    .patch(`${MENUS_BASE_URL}/${inValidIdFormat}`)
+    .send(validMenu)
+    .expect(400);
+
+  equal(response.body.error.message, INVALID_ID);
 });
 
 /* Testing reservations router */
