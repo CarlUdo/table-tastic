@@ -107,4 +107,26 @@ test("POST wrong menu should return 'Invalid menu format'", async () => {
   equal(response.body.error.message, INVALID_MENU);
 });
 
+test("POST valid menu should return the created menu", async () => {
+  const app = createApp();
+
+  const validMenu = {
+    name: "Breakfast Menu",
+    dishes: ["Porridge", "Toast"],
+  };
+
+  const response = await request(app)
+    .post(MENUS_BASE_URL)
+    .send(validMenu)
+    .expect(201);
+
+  const responseBody = response.body;
+
+  equal(responseBody.name, validMenu.name);
+  equal(responseBody.dishes.length, validMenu.dishes.length);
+  responseBody.dishes.forEach((dish: string, index: number) => {
+    equal(dish, validMenu.dishes[index]);
+  });
+});
+
 /* Testing reservations router */
