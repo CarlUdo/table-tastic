@@ -1,16 +1,18 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const menuesDb = [
   {
-    id: "1",
+    id: uuidv4(),
     name: "Breakfast Menu",
     items: ["Pancakes", "Omelette"],
   },
   {
-    id: "2",
+    id: uuidv4(),
     name: "Lunch Menu",
     items: ["Burger", "Salad"],
   },
   {
-    id: "3",
+    id: uuidv4(),
     name: "Dinner Menu",
     items: ["Steak", "Pasta"],
   },
