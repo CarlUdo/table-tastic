@@ -111,6 +111,11 @@ export const updateMenu = async (req: Request, res: Response) => {
 
     const updatedMenu = await update(menuToUpdate);
 
+    if (typeof updatedMenu === "string") {
+      res.status(204).json();
+      return;
+    }
+
     res.status(200).json(updatedMenu);
   } catch (error) {
     if (error instanceof Error) {
