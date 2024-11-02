@@ -12,7 +12,6 @@ import {
 import type { Menu } from "../../src/db/menus/menus-db";
 import type { MenuSchema } from "../../src/validation";
 
-/* Testing menus router */
 test("GET /status", async () => {
   const app = createApp();
 
