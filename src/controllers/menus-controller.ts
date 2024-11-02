@@ -5,6 +5,7 @@ import {
   GENERAL_SERVER_ERROR,
   INVALID_ID,
   INVALID_MENU,
+  MENU_EXISTS,
 } from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
 
@@ -68,7 +69,9 @@ export const addMenu = async (req: Request, res: Response) => {
     res.status(201).json(newMenu);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ error: { message: error.message } });
+      let statusCode = 500;
+      if (error.message === MENU_EXISTS) statusCode = 409;
+      res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
