@@ -5,6 +5,7 @@ import { createApp } from "../src/app";
 import {
   INVALID_ID,
   INVALID_MENU,
+  MENU_EXISTS,
   MENU_NOT_FOUND,
   MENUS_BASE_URL,
 } from "../src/libs/constants";
@@ -53,7 +54,7 @@ test("GET all menus should include breakfast menu", async () => {
   equal(true, breakfastMenuExists);
 });
 
-test("GET menu for id should return 'Menu not found' when database id doesn't exist", async () => {
+test("GET menu for id should return 'Menu not found.' when database id doesn't exist", async () => {
   const app = createApp();
 
   const idNotInDb = "9de3faf7-36f3-4449-b4b5-7c3393f00e19";
@@ -83,7 +84,7 @@ test("GET menu id '42995559-2641-4d33-85e9-9043373fc6bf' should return dinner me
   deepEqual(responseBody, dinnerMenu);
 });
 
-test("GET menu id 1 should return 'Invalid ID format'", async () => {
+test("GET menu id 1 should return 'Invalid ID format.'", async () => {
   const app = createApp();
 
   const responseBody = (await request(app).get(`${MENUS_BASE_URL}/1`)).body;
@@ -91,7 +92,7 @@ test("GET menu id 1 should return 'Invalid ID format'", async () => {
   equal(responseBody.error.message, INVALID_ID);
 });
 
-test("POST wrong menu should return 'Invalid menu format'", async () => {
+test("POST wrong menu should return 'Invalid menu format.'", async () => {
   const app = createApp();
 
   const invalidMenu = {
@@ -105,6 +106,22 @@ test("POST wrong menu should return 'Invalid menu format'", async () => {
     .expect(400);
 
   equal(response.body.error.message, INVALID_MENU);
+});
+
+test("POST if menu exists it should return 'Menu already exixts.'", async () => {
+  const app = createApp();
+
+  const existingMenu = {
+    name: "Breakfast Menu",
+    dishes: ["Pancakes", "Omelette"],
+  };
+
+  const response = await request(app)
+    .post(MENUS_BASE_URL)
+    .send(existingMenu)
+    .expect(409);
+
+  equal(response.body.error.message, MENU_EXISTS);
 });
 
 test("POST valid menu should return the created menu", async () => {
