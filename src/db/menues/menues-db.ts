@@ -1,12 +1,12 @@
-type Menues = "Breakfast Menu" | "Lunch Menu" | "Dinner Menu";
+type MenuName = "Breakfast Menu" | "Lunch Menu" | "Dinner Menu";
 
-type MenuesDb = {
+export type Menu = {
   id: string;
-  name: Menues;
+  name: MenuName;
   dishes: string[];
 };
 
-export const menuesDb: MenuesDb[] = [
+export const menuesDb: Menu[] = [
   {
     id: "9de3faf7-36f3-4449-b4b5-7c3393f00e10",
     name: "Breakfast Menu",
