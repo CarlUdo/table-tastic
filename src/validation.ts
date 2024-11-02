@@ -8,3 +8,5 @@ export const menuSchema = z.object({
   name: menuNameSchema,
   dishes: z.array(z.string()),
 });
+
+export type MenuSchema = z.infer<typeof menuSchema>;
