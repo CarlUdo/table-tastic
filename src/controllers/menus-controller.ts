@@ -58,12 +58,14 @@ export const addMenu = async (req: Request, res: Response) => {
 
     const id = uuidv4();
 
-    await addItem({
+    const newMenu = {
       id,
       ...validationResult.data,
-    });
+    };
 
-    res.status(201).json(id);
+    await addItem(newMenu);
+
+    res.status(201).json(newMenu);
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: { message: error.message } });
