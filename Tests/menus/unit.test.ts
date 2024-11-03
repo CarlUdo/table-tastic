@@ -1,7 +1,7 @@
 import test, { beforeEach } from "node:test";
 import { deepEqual } from "node:assert/strict";
 import { menusDb as db } from "../../src/db/menus/menus-db";
-import { create, getAll, getById } from "../../src/services/menus/menus-db-functions";
+import { create, getAll, getById, update } from "../../src/services/menus/menus-db-functions";
 import { MENU_EXISTS, MENU_NOT_FOUND } from "../../src/libs/constants";
 import { rejects } from "node:assert";
 import type { Menu } from "../../src/db/menus/menus-db";
@@ -72,4 +72,16 @@ test("create should add a new menu", async () => {
   const createdMenu = await getById(newMenu.id);
   
   deepEqual(createdMenu, newMenu);
+});
+
+test("update should modify an existing menu", async () => {
+  const updatedMenu: Menu = { 
+    id: "9de3faf7-36f3-4449-b4b5-7c3393f00e10", 
+    name: "Breakfast Menu", 
+    dishes: ["Nutella pancakes", "Strawberry milkshake"] 
+  };
+  
+  const result = await update(updatedMenu);
+  
+  deepEqual(result, updatedMenu);
 });
