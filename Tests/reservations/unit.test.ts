@@ -1,6 +1,6 @@
 import test from "node:test";
 import { deepEqual } from "node:assert/strict";
-import { create, getAll, getById } from "../../src/services/reservations/reservations-db-functions";
+import { create, getAll, getById, update } from "../../src/services/reservations/reservations-db-functions";
 import { reservationsDb as db, Reservation } from "../../src/db/reservations/reservations-db";
 import { rejects } from "node:assert";
 import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../src/libs/constants";
@@ -58,5 +58,20 @@ test("create should add a new reservation", async () => {
   const createdReservation = await getById(newReservation.id);
   
   deepEqual(createdReservation, newReservation);
+});
+
+test("update should modify an existing reservation", async () => {  
+  const updatedReservation: Reservation = {
+    id: "f576ecc3-b655-488a-b83d-dfbd0182ba5d",
+    menuId: "updated-menu-id",
+    customerName: "Harrison Ford",
+    tableNumber: 10,
+    date: "2024-11-23",
+    time: "08:00",
+  };
+
+  const result = await update(updatedReservation);
+
+  deepEqual(result, updatedReservation);
 });
 
