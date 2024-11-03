@@ -1,7 +1,16 @@
 import test from "node:test";
 import { deepEqual } from "node:assert/strict";
-import { create, getAll, getById, remove, update } from "../../src/services/reservations/reservations-db-functions";
-import { reservationsDb as db, Reservation } from "../../src/db/reservations/reservations-db";
+import {
+  create,
+  getAll,
+  getById,
+  remove,
+  update,
+} from "../../src/services/reservations/reservations-db-functions";
+import {
+  reservationsDb as db,
+  Reservation,
+} from "../../src/db/reservations/reservations-db";
 import { rejects } from "node:assert";
 import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../src/libs/constants";
 
@@ -14,8 +23,11 @@ test("getById should return the correct reservation by id", async () => {
   const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
 
   const result = await getById(validId);
-  
-  deepEqual(result, db.find((reservation) => reservation.id === validId));
+
+  deepEqual(
+    result,
+    db.find((reservation) => reservation.id === validId),
+  );
 });
 
 test("getById should reject if reservation not found", async () => {
@@ -37,7 +49,7 @@ test("create should reject if reservation is fully booked", async () => {
   };
 
   await rejects(async () => {
-    await create (newReservation);
+    await create(newReservation);
   }, new Error(FULLY_BOOKED));
 });
 
@@ -52,15 +64,15 @@ test("create should add a new reservation", async () => {
   };
 
   const result = await create(newReservation);
-  
+
   deepEqual(result, newReservation);
 
   const createdReservation = await getById(newReservation.id);
-  
+
   deepEqual(createdReservation, newReservation);
 });
 
-test("update should modify an existing reservation", async () => {  
+test("update should modify an existing reservation", async () => {
   const updatedReservation: Reservation = {
     id: "f576ecc3-b655-488a-b83d-dfbd0182ba5d",
     menuId: "updated-menu-id",
@@ -96,7 +108,7 @@ test("remove should delete a reservation by id", async () => {
   const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
 
   const result = await remove(validId);
-  
+
   deepEqual(result.id, validId);
 
   await rejects(async () => {

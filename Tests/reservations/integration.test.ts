@@ -2,7 +2,11 @@ import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
 import test from "node:test";
 import { createApp } from "../../src/app";
-import { FULLY_BOOKED, RESERVATION_NOT_FOUND, RESERVATIONS_BASE_URL } from "../../src/libs/constants";
+import {
+  FULLY_BOOKED,
+  RESERVATION_NOT_FOUND,
+  RESERVATIONS_BASE_URL,
+} from "../../src/libs/constants";
 import { reservationsDb as db } from "../../src/db/reservations/reservations-db";
 
 test("GET all reservations should return all reservations", async () => {
@@ -22,9 +26,11 @@ test("GET reservation by id should return the correct reservation", async () => 
 
   const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
 
-  const response = await request(app).get(`${RESERVATIONS_BASE_URL}/${validId}`);
+  const response = await request(app).get(
+    `${RESERVATIONS_BASE_URL}/${validId}`,
+  );
 
-  const expectedReservation = db.find(res => res.id === validId);
+  const expectedReservation = db.find((res) => res.id === validId);
 
   equal(response.status, 200);
   deepEqual(response.body, expectedReservation);
@@ -40,7 +46,9 @@ test("POST a new reservation should create and return the reservation", async ()
     time: "09:00",
   };
 
-  const response = await request(app).post(RESERVATIONS_BASE_URL).send(newReservation);
+  const response = await request(app)
+    .post(RESERVATIONS_BASE_URL)
+    .send(newReservation);
 
   equal(response.status, 201);
 
@@ -49,7 +57,9 @@ test("POST a new reservation should create and return the reservation", async ()
   equal(response.body.customerName, newReservation.customerName);
   equal(response.body.tableNumber, newReservation.tableNumber);
 
-  const getResponse = await request(app).get(`${RESERVATIONS_BASE_URL}/${createdId}`);
+  const getResponse = await request(app).get(
+    `${RESERVATIONS_BASE_URL}/${createdId}`,
+  );
 
   equal(getResponse.status, 200);
   equal(getResponse.body.customerName, newReservation.customerName);
@@ -65,7 +75,9 @@ test("POST a new reservation should reject if fully booked", async () => {
     time: "08:00",
   };
 
-  const response = await request(app).post(RESERVATIONS_BASE_URL).send(newReservation);
+  const response = await request(app)
+    .post(RESERVATIONS_BASE_URL)
+    .send(newReservation);
 
   equal(response.status, 409);
   equal(response.body.error.message, FULLY_BOOKED);
@@ -97,14 +109,18 @@ test("DELETE a reservation should remove the reservation and return it", async (
 
   const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
 
-  const expectedReservation = db.find(res => res.id === validId);
+  const expectedReservation = db.find((res) => res.id === validId);
 
-  const response = await request(app).delete(`${RESERVATIONS_BASE_URL}/${validId}`);
+  const response = await request(app).delete(
+    `${RESERVATIONS_BASE_URL}/${validId}`,
+  );
 
   equal(response.status, 200);
   deepEqual(response.body, expectedReservation);
 
-  const getResponse = await request(app).get(`${RESERVATIONS_BASE_URL}/${validId}`);
+  const getResponse = await request(app).get(
+    `${RESERVATIONS_BASE_URL}/${validId}`,
+  );
 
   equal(getResponse.status, 404);
 });
@@ -114,7 +130,9 @@ test("DELETE a reservation should return 404 if reservation not found", async ()
 
   const invaliId = "f576ecc3-b655-488a-b83d-dfbd0182ba2d";
 
-  const response = await request(app).delete(`${RESERVATIONS_BASE_URL}/${invaliId}`);
+  const response = await request(app).delete(
+    `${RESERVATIONS_BASE_URL}/${invaliId}`,
+  );
 
   equal(response.status, 404);
   equal(response.body.error.message, RESERVATION_NOT_FOUND);
