@@ -40,3 +40,23 @@ test("create should reject if reservation is fully booked", async () => {
     await create (newReservation);
   }, new Error(FULLY_BOOKED));
 });
+
+test("create should add a new reservation", async () => {
+  const newReservation: Reservation = {
+    id: "new-id",
+    menuId: "new-menu-id",
+    customerName: "Forrest Gump",
+    tableNumber: 2,
+    date: "2024-11-27",
+    time: "09:00",
+  };
+
+  const result = await create(newReservation);
+  
+  deepEqual(result, newReservation);
+
+  const createdReservation = await getById(newReservation.id);
+  
+  deepEqual(createdReservation, newReservation);
+});
+
