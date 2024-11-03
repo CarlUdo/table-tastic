@@ -12,6 +12,7 @@ import {
   INVALID_ID,
   INVALID_MENU,
   MENU_EXISTS,
+  MENU_NOT_FOUND,
 } from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
 import { idSchema } from "../validation/id.schema";
@@ -46,7 +47,10 @@ export const getMenu = async (req: Request, res: Response) => {
     res.status(200).json(menu);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ error: { message: error.message } });
+      let statusCode = 500;
+      if (error.message === MENU_NOT_FOUND) statusCode = 404;
+      
+      res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
@@ -120,7 +124,10 @@ export const updateMenu = async (req: Request, res: Response) => {
     res.status(200).json(updatedMenu);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ error: { message: error.message } });
+      let statusCode = 500;
+      if (error.message === MENU_NOT_FOUND) statusCode = 404;
+      
+      res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
@@ -142,10 +149,13 @@ export const deleteMenu = async (req: Request, res: Response) => {
 
     res
       .status(200)
-      .json({ message: "Resource successfully deleted", deletedMenu: menu });
+      .json( menu );
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ error: { message: error.message } });
+      let statusCode = 500;
+      if (error.message === MENU_NOT_FOUND) statusCode = 404;
+      
+      res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
