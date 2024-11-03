@@ -83,3 +83,24 @@ test("PUT should update an existing menu and return the updated menu", async () 
   equal(response.status, 200);
   deepEqual(response.body, updatedMenu);
 });
+
+test("DELETE a menu should remove the menu and return it", async () => {
+  const app = createApp();
+
+  const validId = "42995559-2641-4d33-85e9-9043373fc6bf";
+
+  const expectedMenu = {
+    id: validId,
+    name: "Dinner Menu",
+    dishes: ["Steak", "Pasta"],
+  };
+
+  const response = await request(app).delete(`${MENUS_BASE_URL}/${validId}`);
+
+  equal(response.status, 200);
+  deepEqual(response.body, expectedMenu);
+
+  const getResponse = await request(app).get(`${MENUS_BASE_URL}/${validId}`);
+
+  equal(getResponse.status, 404);
+});
