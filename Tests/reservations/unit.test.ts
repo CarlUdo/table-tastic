@@ -103,3 +103,11 @@ test("remove should delete a reservation by id", async () => {
     await getById(validId);
   }, new Error(RESERVATION_NOT_FOUND));
 });
+
+test("remove should reject if reservation not found", async () => {
+  const invalidId = "non-existent-id";
+
+  await rejects(async () => {
+    await remove(invalidId);
+  }, new Error(RESERVATION_NOT_FOUND));
+});
