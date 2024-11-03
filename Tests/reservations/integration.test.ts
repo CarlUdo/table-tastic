@@ -91,3 +91,20 @@ test("PUT should update an existing reservation and return the updated reservati
   equal(response.body.customerName, updatedReservation.customerName);
   equal(response.body.tableNumber, updatedReservation.tableNumber);
 });
+
+test("DELETE a reservation should remove the reservation and return it", async () => {
+  const app = createApp();
+
+  const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
+
+  const expectedReservation = db.find(res => res.id === validId);
+
+  const response = await request(app).delete(`${RESERVATIONS_BASE_URL}/${validId}`);
+
+  equal(response.status, 200);
+  deepEqual(response.body, expectedReservation);
+
+  const getResponse = await request(app).get(`${RESERVATIONS_BASE_URL}/${validId}`);
+
+  equal(getResponse.status, 404);
+});
