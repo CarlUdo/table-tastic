@@ -34,9 +34,7 @@ export const create = async (
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const fullyBooked = reservationsDb.some(
-        (dbReservation) =>
-          dbReservation.date === reservation.date &&
-          dbReservation.time === reservation.time,
+        (dbReservation) => dbReservation.date === reservation.date,
       );
 
       if (fullyBooked) {

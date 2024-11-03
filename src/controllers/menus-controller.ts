@@ -53,7 +53,7 @@ export const getMenu = async (req: Request, res: Response) => {
 export const addMenu = async (req: Request, res: Response) => {
   try {
     if (!req.body) {
-      res.status(400).json({ error: { message: 'Request body is missing' } });
+      res.status(400).json({ error: { message: "Request body is missing" } });
       return;
     }
 
@@ -90,10 +90,10 @@ export const addMenu = async (req: Request, res: Response) => {
 export const updateMenu = async (req: Request, res: Response) => {
   try {
     if (!req.body) {
-      res.status(400).json({ error: { message: 'Request body is missing' } });
+      res.status(400).json({ error: { message: "Request body is missing" } });
       return;
     }
-    
+
     const { id } = req.params;
 
     const menu = req.body;
