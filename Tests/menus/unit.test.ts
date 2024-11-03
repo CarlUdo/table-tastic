@@ -1,4 +1,4 @@
-import test, { beforeEach } from "node:test";
+import test from "node:test";
 import { deepEqual } from "node:assert/strict";
 import { menusDb as db } from "../../src/db/menus/menus-db";
 import { create, getAll, getById, remove, update } from "../../src/services/menus/menus-db-functions";
@@ -13,11 +13,11 @@ test("getAll should return all menus", async () => {
 });
 
 test("getById should return the correct menu by id", async () => {
-  const menuId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
+  const validId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
 
-  const result = await getById(menuId);
+  const result = await getById(validId);
   
-  deepEqual(result, db.find(menu => menu.id === menuId));
+  deepEqual(result, db.find(menu => menu.id === validId));
 });
 
 test("getById should reject if menu not found", async () => {
@@ -29,10 +29,10 @@ test("getById should reject if menu not found", async () => {
 });
 
 test("create should reject if menu exists", async () => {
-  const id = "42995559-2641-4d33-85e9-9043373fc6bf";
+  const validId= "42995559-2641-4d33-85e9-9043373fc6bf";
 
   const newMenu: Menu = { 
-    id, 
+    id: validId, 
     name: "Dinner Menu", 
     dishes: ["Chicken wings"] 
   };
@@ -87,10 +87,10 @@ test("update should modify an existing menu", async () => {
 });
 
 test("update should reject if menu not found", async () => {
-  const nonExistingId = "9de3faf7-36f3-4449-b4b5-7c3393f00e17";
+  const invalidId = "9de3faf7-36f3-4449-b4b5-7c3393f00e17";
 
   const nonExistingMenu: Menu = { 
-    id: nonExistingId, 
+    id: invalidId, 
     name: "Breakfast Menu", 
     dishes: ["Ham sandwich"] 
   };
@@ -101,14 +101,21 @@ test("update should reject if menu not found", async () => {
 });
 
 test("remove should delete a menu by id", async () => {
-  const menuId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
+  const validId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
 
-  const result = await remove(menuId);
+  const result = await remove(validId);
   
-  deepEqual(result.id, menuId);
+  deepEqual(result.id, validId);
 
   rejects(async () => {
-    await getById(menuId);
+    await getById(validId);
   }, new Error(MENU_NOT_FOUND));
 });
 
+test("remove should reject if menu not found", async () => {
+  const invalidId = "9de3faf7-36f3-4449-b4b5-7c3393f09e10";
+
+  rejects(async () => {
+    await remove(invalidId);
+  }, new Error(MENU_NOT_FOUND));
+});
