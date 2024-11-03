@@ -1,9 +1,29 @@
 import { Request, Response } from "express";
 import { reservationSchema } from "../validation/reservations.schema";
-import { FULLY_BOOKED, GENERAL_SERVER_ERROR, INVALID_RESERVATION, NO_MENU } from "../libs/constants";
+import {
+  FULLY_BOOKED,
+  GENERAL_SERVER_ERROR,
+  INVALID_RESERVATION,
+  NO_MENU,
+} from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
 import { getMenuId } from "../services/menus/menus-db-helper-functions";
 import { create } from "../services/reservations/reservations-db-functions";
+import { getAll } from "../services/reservations/reservations-db-functions";
+
+export const getAllReservations = async (req: Request, res: Response) => {
+  try {
+    const reservations = await getAll();
+
+    res.status(200).json(reservations);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
+  }
+};
 
 export const makeReservation = async (req: Request, res: Response) => {
   try {
@@ -23,23 +43,21 @@ export const makeReservation = async (req: Request, res: Response) => {
       return;
     }
 
-    const reservationId = uuidv4();    
+    const reservationId = uuidv4();
 
     const newReservation = await create({
       ...validationResult.data,
       id: reservationId,
-      menuId
+      menuId,
     });
     console.log("Reservation: ", newReservation);
-
   } catch (error) {
-      if (error instanceof Error) {
-        let statusCode = 500;
-        if (error.message === FULLY_BOOKED) statusCode = 409;
-        res.status(statusCode).json({ error: { message: error.message } });
-        return;
-      }
-      res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
+    if (error instanceof Error) {
+      let statusCode = 500;
+      if (error.message === FULLY_BOOKED) statusCode = 409;
+      res.status(statusCode).json({ error: { message: error.message } });
+      return;
     }
+    res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
+  }
 };
-
