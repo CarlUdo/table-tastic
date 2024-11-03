@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getMenuId } from "../services/menus/menus-db-helper-functions";
 import { create } from "../services/reservations/reservations-db-functions";
 
-export const addReservation = async (req: Request, res: Response) => {
+export const makeReservation = async (req: Request, res: Response) => {
   try {
     const reservation = req.body;
 
