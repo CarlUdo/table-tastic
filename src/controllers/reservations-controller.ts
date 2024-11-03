@@ -9,7 +9,12 @@ import {
 } from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
 import { getMenuId } from "../services/menus/menus-db-helper-functions";
-import { create, getById, remove, update } from "../services/reservations/reservations-db-functions";
+import {
+  create,
+  getById,
+  remove,
+  update,
+} from "../services/reservations/reservations-db-functions";
 import { getAll } from "../services/reservations/reservations-db-functions";
 import { idSchema } from "../validation/id.schema";
 import { Reservation } from "../db/reservations/reservations-db";
@@ -97,7 +102,8 @@ export const updateReservation = async (req: Request, res: Response) => {
 
     const idValidationResult = idSchema.safeParse(id);
 
-    const reservationValidationResult = reservationSchema.safeParse(reservation);
+    const reservationValidationResult =
+      reservationSchema.safeParse(reservation);
 
     if (!idValidationResult.success) {
       res.status(400).json({ error: { message: INVALID_ID } });
@@ -119,7 +125,7 @@ export const updateReservation = async (req: Request, res: Response) => {
     const reservationToUpdate: Reservation = {
       id: idValidationResult.data,
       ...reservationValidationResult.data,
-      menuId
+      menuId,
     };
 
     const updatedReservation = await update(reservationToUpdate);
@@ -149,7 +155,10 @@ export const deleteReservation = async (req: Request, res: Response) => {
 
     res
       .status(200)
-      .json({ message: "Resource successfully deleted", deletedReservation: reservation });
+      .json({
+        message: "Resource successfully deleted",
+        deletedReservation: reservation,
+      });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: { message: error.message } });

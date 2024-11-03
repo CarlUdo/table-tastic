@@ -15,7 +15,9 @@ export const getAll = async (): Promise<Reservation[]> => {
 export const getById = async (id: string): Promise<Reservation> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const reservation = reservationsDb.find((dbReservation) => dbReservation.id === id);
+      const reservation = reservationsDb.find(
+        (dbReservation) => dbReservation.id === id,
+      );
 
       if (!reservation) {
         reject(new Error(RESERVATION_NOT_FOUND));
@@ -49,18 +51,22 @@ export const create = async (
   });
 };
 
-export const update = async (reservation: Reservation): Promise<Reservation> => {
+export const update = async (
+  reservation: Reservation,
+): Promise<Reservation> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const reservationToUpdate = reservationsDb.find((dbReservation) => dbReservation.id === reservation.id);
+      const reservationToUpdate = reservationsDb.find(
+        (dbReservation) => dbReservation.id === reservation.id,
+      );
 
       if (!reservationToUpdate) {
         reject(new Error(RESERVATION_NOT_FOUND));
         return;
       }
 
-      console.log("BEFINTLIG: ", reservationToUpdate )
-      console.log("UPPDATERAD: ", reservation)
+      console.log("BEFINTLIG: ", reservationToUpdate);
+      console.log("UPPDATERAD: ", reservation);
 
       resolve(reservation);
     }, 100);
@@ -70,14 +76,18 @@ export const update = async (reservation: Reservation): Promise<Reservation> => 
 export const remove = async (id: string): Promise<Reservation> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const reservation = reservationsDb.find((dbReservation) => dbReservation.id === id);
+      const reservation = reservationsDb.find(
+        (dbReservation) => dbReservation.id === id,
+      );
 
       if (!reservation) {
         reject(new Error(RESERVATION_NOT_FOUND));
         return;
       }
 
-      const updatedReservationsDb = reservationsDb.filter((dbReservation) => dbReservation.id !== id);
+      const updatedReservationsDb = reservationsDb.filter(
+        (dbReservation) => dbReservation.id !== id,
+      );
 
       reservationsDb.length = 0;
       reservationsDb.push(...updatedReservationsDb);

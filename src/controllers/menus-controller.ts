@@ -107,7 +107,7 @@ export const updateMenu = async (req: Request, res: Response) => {
 
     const menuToUpdate = {
       id: idValidationResult.data,
-      ...menuValidationResult.data
+      ...menuValidationResult.data,
     };
 
     const updatedMenu = await update(menuToUpdate);
