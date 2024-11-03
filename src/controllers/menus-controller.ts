@@ -49,7 +49,7 @@ export const getMenu = async (req: Request, res: Response) => {
     if (error instanceof Error) {
       let statusCode = 500;
       if (error.message === MENU_NOT_FOUND) statusCode = 404;
-      
+
       res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
@@ -126,7 +126,7 @@ export const updateMenu = async (req: Request, res: Response) => {
     if (error instanceof Error) {
       let statusCode = 500;
       if (error.message === MENU_NOT_FOUND) statusCode = 404;
-      
+
       res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
@@ -147,14 +147,12 @@ export const deleteMenu = async (req: Request, res: Response) => {
 
     const menu = await remove(validationResult.data);
 
-    res
-      .status(200)
-      .json( menu );
+    res.status(200).json(menu);
   } catch (error) {
     if (error instanceof Error) {
       let statusCode = 500;
       if (error.message === MENU_NOT_FOUND) statusCode = 404;
-      
+
       res.status(statusCode).json({ error: { message: error.message } });
       return;
     }

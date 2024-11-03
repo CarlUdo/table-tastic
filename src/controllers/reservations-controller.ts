@@ -51,7 +51,7 @@ export const getReservation = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       let statusCode = 500;
-      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;      
+      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;
       res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
@@ -137,7 +137,7 @@ export const updateReservation = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       let statusCode = 500;
-      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;      
+      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;
       res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
@@ -162,7 +162,7 @@ export const deleteReservation = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       let statusCode = 500;
-      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;      
+      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;
       res.status(statusCode).json({ error: { message: error.message } });
       return;
     }

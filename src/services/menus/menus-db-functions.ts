@@ -62,7 +62,6 @@ export const remove = async (id: string): Promise<Menu> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const menu = menusDb.find((dbMenu) => dbMenu.id === id);
-
       if (!menu) {
         reject(new Error(MENU_NOT_FOUND));
         return;
