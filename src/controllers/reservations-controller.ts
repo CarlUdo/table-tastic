@@ -9,7 +9,7 @@ import {
 } from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
 import { getMenuId } from "../services/menus/menus-db-helper-functions";
-import { create, getById, update } from "../services/reservations/reservations-db-functions";
+import { create, getById, remove, update } from "../services/reservations/reservations-db-functions";
 import { getAll } from "../services/reservations/reservations-db-functions";
 import { idSchema } from "../validation/id.schema";
 import { Reservation } from "../db/reservations/reservations-db";
@@ -125,6 +125,31 @@ export const updateReservation = async (req: Request, res: Response) => {
     const updatedReservation = await update(reservationToUpdate);
 
     res.status(200).json(updatedReservation);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: { message: error.message } });
+      return;
+    }
+    res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
+  }
+};
+
+export const deleteReservation = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const validationResult = idSchema.safeParse(id);
+
+    if (!validationResult.success) {
+      res.status(400).json({ error: { message: INVALID_ID } });
+      return;
+    }
+
+    const reservation = await remove(validationResult.data);
+
+    res
+      .status(200)
+      .json({ message: "Resource successfully deleted", deletedReservation: reservation });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: { message: error.message } });
