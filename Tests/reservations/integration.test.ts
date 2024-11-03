@@ -2,7 +2,7 @@ import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
 import test from "node:test";
 import { createApp } from "../../src/app";
-import { FULLY_BOOKED, RESERVATIONS_BASE_URL } from "../../src/libs/constants";
+import { FULLY_BOOKED, RESERVATION_NOT_FOUND, RESERVATIONS_BASE_URL } from "../../src/libs/constants";
 import { reservationsDb as db } from "../../src/db/reservations/reservations-db";
 
 test("GET all reservations should return all reservations", async () => {
@@ -107,4 +107,15 @@ test("DELETE a reservation should remove the reservation and return it", async (
   const getResponse = await request(app).get(`${RESERVATIONS_BASE_URL}/${validId}`);
 
   equal(getResponse.status, 404);
+});
+
+test("DELETE a reservation should return 404 if reservation not found", async () => {
+  const app = createApp();
+
+  const invaliId = "f576ecc3-b655-488a-b83d-dfbd0182ba2d";
+
+  const response = await request(app).delete(`${RESERVATIONS_BASE_URL}/${invaliId}`);
+
+  equal(response.status, 404);
+  equal(response.body.error.message, RESERVATION_NOT_FOUND);
 });
