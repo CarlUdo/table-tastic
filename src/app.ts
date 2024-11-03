@@ -21,5 +21,9 @@ export const createApp = () => {
 
   app.use(RESERVATIONS_BASE_URL, reservationsRouter);
 
+  app.use((req: Request, res: Response) => {
+    res.status(404).json({ error: "Not found" });
+  });
+
   return app;
 };
