@@ -1,9 +1,7 @@
-type MenuName = "Breakfast Menu" | "Lunch Menu" | "Dinner Menu";
+import type { MenuSchema } from "../../validation";
 
-export type Menu = {
+export type Menu = MenuSchema & {
   id: string;
-  name: MenuName;
-  dishes: string[];
 };
 
 export const menusDb: Menu[] = [
