@@ -60,6 +60,11 @@ export const getReservation = async (req: Request, res: Response) => {
 
 export const makeReservation = async (req: Request, res: Response) => {
   try {
+    if (!req.body) {
+      res.status(400).json({ error: { message: 'Request body is missing' } });
+      return;
+    }
+    
     const reservation = req.body;
 
     const validationResult = reservationSchema.safeParse(reservation);
@@ -98,6 +103,11 @@ export const makeReservation = async (req: Request, res: Response) => {
 
 export const updateReservation = async (req: Request, res: Response) => {
   try {
+    if (!req.body) {
+      res.status(400).json({ error: { message: 'Request body is missing' } });
+      return;
+    }
+
     const { id } = req.params;
 
     const reservation = req.body;
