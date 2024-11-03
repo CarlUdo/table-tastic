@@ -66,3 +66,23 @@ export const update = async (reservation: Reservation): Promise<Reservation> => 
     }, 100);
   });
 };
+
+export const remove = async (id: string): Promise<Reservation> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const reservation = reservationsDb.find((dbReservation) => dbReservation.id === id);
+
+      if (!reservation) {
+        reject(new Error(RESERVATION_NOT_FOUND));
+        return;
+      }
+
+      const updatedReservationsDb = reservationsDb.filter((dbReservation) => dbReservation.id !== id);
+
+      reservationsDb.length = 0;
+      reservationsDb.push(...updatedReservationsDb);
+
+      resolve(reservation);
+    }, 100);
+  });
+};
