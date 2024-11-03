@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const reservationSchema = z.object({
-  id: z.string(),
   customerName: z.string(),
   tableNumber: z
     .number()
