@@ -1,7 +1,9 @@
-import { menusDb } from "../db/menus/menus-db";
+import { getAll } from "../services/menus/menus-db-functions";
 
-const getValidDishesForTime = (time: string) => {
+const getValidDishesForTime = async (time: string) => {
   const [hour] = time.split(':').map(Number);
+
+  const menusDb = await getAll();
 
   if (hour >= 0 && hour < 10) {
     const breakfastMenu = menusDb.find(menu => menu.name === "Breakfast Menu");
@@ -26,7 +28,7 @@ const getValidDishesForTime = (time: string) => {
   return dinnerMenu.dishes;
 };
 
-export const isValidDishForTime = (dishes: string[], time:string) => {
-  const allowedDishes = getValidDishesForTime(time);
+export const isValidDishForTime = async (dishes: string[], time:string) => {
+  const allowedDishes = await getValidDishesForTime(time);
   return dishes.every(dish => allowedDishes.includes(dish));
 };
