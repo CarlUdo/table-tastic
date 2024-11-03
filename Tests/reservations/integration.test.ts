@@ -2,7 +2,7 @@ import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
 import test from "node:test";
 import { createApp } from "../../src/app";
-import { RESERVATIONS_BASE_URL } from "../../src/libs/constants";
+import { FULLY_BOOKED, RESERVATIONS_BASE_URL } from "../../src/libs/constants";
 import { reservationsDb as db } from "../../src/db/reservations/reservations-db";
 
 test("GET all reservations should return all reservations", async () => {
@@ -53,6 +53,22 @@ test("POST a new reservation should create and return the reservation", async ()
 
   equal(getResponse.status, 200);
   equal(getResponse.body.customerName, newReservation.customerName);
+});
+
+test("POST a new reservation should reject if fully booked", async () => {
+  const app = createApp();
+
+  const newReservation = {
+    customerName: "Dalai Lama",
+    tableNumber: 1,
+    date: "2024-11-23",
+    time: "08:00",
+  };
+
+  const response = await request(app).post(RESERVATIONS_BASE_URL).send(newReservation);
+
+  equal(response.status, 409);
+  equal(response.body.error.message, FULLY_BOOKED);
 });
 
 test("PUT should update an existing reservation and return the updated reservation", async () => {
