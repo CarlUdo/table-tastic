@@ -30,11 +30,7 @@ export const getById = async (id: string): Promise<Menu> => {
 export const create = async (menu: Menu): Promise<Menu> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const exists = menusDb.some(
-        (dbMenu) =>
-          dbMenu.name === menu.name &&
-          JSON.stringify(dbMenu.dishes) === JSON.stringify(menu.dishes),
-      );
+      const exists = menusDb.some((dbMenu) => dbMenu.name === menu.name);
 
       if (exists) {
         reject(new Error(MENU_EXISTS));
