@@ -1,6 +1,6 @@
 import test from "node:test";
 import { deepEqual } from "node:assert/strict";
-import { create, getAll, getById, update } from "../../src/services/reservations/reservations-db-functions";
+import { create, getAll, getById, remove, update } from "../../src/services/reservations/reservations-db-functions";
 import { reservationsDb as db, Reservation } from "../../src/db/reservations/reservations-db";
 import { rejects } from "node:assert";
 import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../src/libs/constants";
@@ -89,5 +89,17 @@ test("update should reject if reservation not found", async () => {
 
   await rejects(async () => {
     await update(nonExistingReservation);
+  }, new Error(RESERVATION_NOT_FOUND));
+});
+
+test("remove should delete a reservation by id", async () => {
+  const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
+
+  const result = await remove(validId);
+  
+  deepEqual(result.id, validId);
+
+  await rejects(async () => {
+    await getById(validId);
   }, new Error(RESERVATION_NOT_FOUND));
 });
