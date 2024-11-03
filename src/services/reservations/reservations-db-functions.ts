@@ -6,10 +6,22 @@ import type { Reservation } from "../../db/reservations/reservations-db";
 import { reservationsDb } from "../../db/reservations/reservations-db";
 import { FULLY_BOOKED } from "../../libs/constants";
 
-export const create = async (reservation: Reservation): Promise<Reservation> => {
+export const getAll = async (): Promise<Reservation[]> => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(reservationsDb), 100);
+  });
+};
+
+export const create = async (
+  reservation: Reservation,
+): Promise<Reservation> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const fullyBooked = reservationsDb.some((dbReservation) => dbReservation.date === reservation.date && dbReservation.time === reservation.time);
+      const fullyBooked = reservationsDb.some(
+        (dbReservation) =>
+          dbReservation.date === reservation.date &&
+          dbReservation.time === reservation.time,
+      );
 
       if (fullyBooked) {
         reject(new Error(FULLY_BOOKED));
