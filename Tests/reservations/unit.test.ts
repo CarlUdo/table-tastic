@@ -75,3 +75,19 @@ test("update should modify an existing reservation", async () => {
   deepEqual(result, updatedReservation);
 });
 
+test("update should reject if reservation not found", async () => {
+  const invalidId = "non-existent-id";
+
+  const nonExistingReservation: Reservation = {
+    id: invalidId,
+    menuId: "updated-menu-id",
+    customerName: "Dolly Parton",
+    tableNumber: 4,
+    date: "2024-11-25",
+    time: "10:00",
+  };
+
+  await rejects(async () => {
+    await update(nonExistingReservation);
+  }, new Error(RESERVATION_NOT_FOUND));
+});
