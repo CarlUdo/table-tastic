@@ -6,6 +6,7 @@ import {
   INVALID_ID,
   INVALID_RESERVATION,
   NO_MENU,
+  RESERVATION_NOT_FOUND,
 } from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
 import { getMenuId } from "../services/menus/menus-db-helper-functions";
@@ -49,7 +50,9 @@ export const getReservation = async (req: Request, res: Response) => {
     res.status(200).json(reservation);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ error: { message: error.message } });
+      let statusCode = 500;
+      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;      
+      res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
@@ -133,7 +136,9 @@ export const updateReservation = async (req: Request, res: Response) => {
     res.status(200).json(updatedReservation);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ error: { message: error.message } });
+      let statusCode = 500;
+      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;      
+      res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
@@ -153,13 +158,12 @@ export const deleteReservation = async (req: Request, res: Response) => {
 
     const reservation = await remove(validationResult.data);
 
-    res.status(200).json({
-      message: "Resource successfully deleted",
-      deletedReservation: reservation,
-    });
+    res.status(200).json(reservation);
   } catch (error) {
     if (error instanceof Error) {
-      res.status(500).json({ error: { message: error.message } });
+      let statusCode = 500;
+      if (error.message === RESERVATION_NOT_FOUND) statusCode = 404;      
+      res.status(statusCode).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
