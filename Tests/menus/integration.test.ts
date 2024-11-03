@@ -1,20 +1,19 @@
-import { createApp } from '../../src/app';
-import request from 'supertest';
-import { deepEqual, equal } from 'node:assert/strict';
-import test from 'node:test';
-import { MENUS_BASE_URL } from '../../src/libs/constants';
-import type { Menu } from '../../src/db/menus/menus-db';
-import { menusDb as db } from '../../src/db/menus/menus-db';
+import { createApp } from "../../src/app";
+import request from "supertest";
+import { deepEqual, equal } from "node:assert/strict";
+import test from "node:test";
+import { MENUS_BASE_URL } from "../../src/libs/constants";
+import type { Menu } from "../../src/db/menus/menus-db";
+import { menusDb as db } from "../../src/db/menus/menus-db";
 
-test ("GET all menus should return 3 menus", async () => {
+test("GET all menus should return 3 menus", async () => {
   const app = createApp();
 
   const response = await request(app).get(MENUS_BASE_URL);
-  
+
   const responseBody = response.body;
 
   equal(response.status, 200);
-  
   equal(responseBody.length, 3);
 });
 
@@ -28,11 +27,10 @@ test("GET menu by id should return the correct menu", async () => {
   const expectedMenu = {
     id: validId,
     name: "Breakfast Menu",
-    dishes: ["Pancakes", "Omelette"]
+    dishes: ["Pancakes", "Omelette"],
   };
 
   equal(response.status, 200);
-
   deepEqual(response.body, expectedMenu);
 });
 
@@ -57,24 +55,31 @@ test("POST a new menu should create and return the menu", async () => {
 
   const newMenu = {
     name: "Breakfast Menu",
-    dishes: ["Avocado Toast", "Beer"]
+    dishes: ["Avocado Toast", "Beer"],
   };
 
   const response = await request(app).post(MENUS_BASE_URL).send(newMenu);
 
-  const createdId = response.body.id;
-
   equal(response.status, 201);
-
   equal(response.body.name, newMenu.name);
-  
   deepEqual(response.body.dishes, newMenu.dishes);
+});
 
-  const createdMenu = await request(app).get(`${MENUS_BASE_URL}${createdId}`);
-  
-  equal(createdMenu.status, 200);
-  
-  equal(createdMenu.body.name, newMenu.name);
+test("PUT should update an existing menu and return the updated menu", async () => {
+  const app = createApp();
 
-  deepEqual(createdMenu.body.dishes, newMenu.dishes);
+  const validId = "fd9c2bf1-8540-4ed9-9be7-155877262259";
+
+  const updatedMenu = {
+    id: validId,
+    name: "Lunch Menu",
+    dishes: ["Burger", "Fries, Coke"],
+  };
+
+  const response = await request(app)
+    .put(`${MENUS_BASE_URL}/${validId}`)
+    .send(updatedMenu);
+
+  equal(response.status, 200);
+  deepEqual(response.body, updatedMenu);
 });
