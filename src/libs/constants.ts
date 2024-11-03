@@ -11,4 +11,4 @@ export const MENU_EXISTS = "Menu already exists.";
 export const INVALID_RESERVATION = "Invalid reservation format.";
 export const FULLY_BOOKED = "Restaurant is fully booked.";
 export const NO_MENU = "No menu available for the given time.";
-export const RESERVATION_NOT_FOUND = "Menu not found.";
+export const RESERVATION_NOT_FOUND = "Reservation not found.";
