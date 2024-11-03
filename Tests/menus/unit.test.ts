@@ -20,7 +20,7 @@ test("getById should return the correct menu by id", async () => {
   deepEqual(result, db.find(menu => menu.id === menuId));
 });
 
-test("getById should throw error if menu not found", async () => {
+test("getById should reject if menu not found", async () => {
   const invalidId = "invalid-id";
 
   await rejects(async () => {
@@ -28,7 +28,7 @@ test("getById should throw error if menu not found", async () => {
   }, new Error(MENU_NOT_FOUND));
 });
 
-test("create should throw error if menu exists", async () => {
+test("create should reject if menu exists", async () => {
   const id = "42995559-2641-4d33-85e9-9043373fc6bf";
 
   const newMenu: Menu = { 
@@ -84,4 +84,18 @@ test("update should modify an existing menu", async () => {
   const result = await update(updatedMenu);
   
   deepEqual(result, updatedMenu);
+});
+
+test("update should reject if menu not found", async () => {
+  const nonExistingId = "9de3faf7-36f3-4449-b4b5-7c3393f00e17";
+  
+  const nonExistingMenu: Menu = { 
+    id: nonExistingId, 
+    name: "Breakfast Menu", 
+    dishes: ["Ham sandwich"] 
+  };
+
+  rejects(async () => {
+    await update(nonExistingMenu);
+  }, new Error(MENU_NOT_FOUND));
 });
