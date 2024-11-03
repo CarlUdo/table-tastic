@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteReservation,
   getAllReservations,
   getReservation,
   makeReservation,
@@ -13,6 +14,7 @@ export const createReservationsRouter = () => {
   router.get("/:id", getReservation);
   router.post("/", makeReservation);
   router.put("/:id", updateReservation);
+  router.delete("/:id", deleteReservation);
 
   return router;
 };
