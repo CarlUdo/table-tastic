@@ -2,9 +2,8 @@ import { createApp } from "../../src/app";
 import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
 import test from "node:test";
-import { MENUS_BASE_URL } from "../../src/libs/constants";
-import type { Menu } from "../../src/db/menus/menus-db";
-import { menusDb as db } from "../../src/db/menus/menus-db";
+import { MENUS_BASE_URL } from "../../src/libs";
+import { Menu, menusDb as db } from "../../src/db/menus";
 
 test("GET all menus should return 3 menus", async () => {
   const app = createApp();

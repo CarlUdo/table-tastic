@@ -5,7 +5,7 @@ import {
   getReservation,
   makeReservation,
   updateReservation,
-} from "../controllers/reservations-controller";
+} from "../controllers";
 
 export const createReservationsRouter = () => {
   const router = express.Router();

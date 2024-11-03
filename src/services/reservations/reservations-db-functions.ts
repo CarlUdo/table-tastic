@@ -2,9 +2,8 @@
   To mirror real-life scenarios where database operations are asynchronous I utilize promises and async/await syntax.
 */
 
-import type { Reservation } from "../../db/reservations/reservations-db";
-import { reservationsDb } from "../../db/reservations/reservations-db";
-import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../libs/constants";
+import { reservationsDb, Reservation } from "../../db/reservations";
+import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../libs";
 
 export const getAll = async (): Promise<Reservation[]> => {
   return new Promise((resolve) => {

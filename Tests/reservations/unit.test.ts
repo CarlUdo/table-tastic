@@ -1,18 +1,16 @@
 import test from "node:test";
 import { deepEqual } from "node:assert/strict";
+import { rejects } from "node:assert";
 import {
   create,
   getAll,
   getById,
   remove,
   update,
-} from "../../src/services/reservations/reservations-db-functions";
-import {
-  reservationsDb as db,
-  Reservation,
-} from "../../src/db/reservations/reservations-db";
-import { rejects } from "node:assert";
-import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../src/libs/constants";
+} from "../../src/services/reservations";
+import { reservationsDb as db, Reservation } from "../../src/db/reservations";
+
+import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../src/libs";
 
 test("getAll should return all reservations", async () => {
   const result = await getAll();

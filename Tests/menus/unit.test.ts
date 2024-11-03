@@ -1,16 +1,15 @@
 import test from "node:test";
 import { deepEqual } from "node:assert/strict";
-import { menusDb as db } from "../../src/db/menus/menus-db";
+import { rejects } from "node:assert";
+import { Menu, menusDb as db } from "../../src/db/menus";
 import {
   create,
   getAll,
   getById,
   remove,
   update,
-} from "../../src/services/menus/menus-db-functions";
-import { MENU_EXISTS, MENU_NOT_FOUND } from "../../src/libs/constants";
-import { rejects } from "node:assert";
-import type { Menu } from "../../src/db/menus/menus-db";
+} from "../../src/services/menus";
+import { MENU_EXISTS, MENU_NOT_FOUND } from "../../src/libs";
 
 test("getAll should return all menus", async () => {
   const result = await getAll();

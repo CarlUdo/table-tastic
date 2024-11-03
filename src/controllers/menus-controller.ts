@@ -1,21 +1,14 @@
 import { Request, Response } from "express";
-import {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-} from "../services/menus/menus-db-functions";
-import { menuSchema } from "../validation/menu.schema";
+import { v4 as uuidv4 } from "uuid";
+import { getAll, getById, create, update, remove } from "../services/menus";
+import { menuSchema, idSchema } from "../validation";
 import {
   GENERAL_SERVER_ERROR,
   INVALID_ID,
   INVALID_MENU,
   MENU_EXISTS,
   MENU_NOT_FOUND,
-} from "../libs/constants";
-import { v4 as uuidv4 } from "uuid";
-import { idSchema } from "../validation/id.schema";
+} from "../libs";
 
 export const getAllMenus = async (req: Request, res: Response) => {
   try {

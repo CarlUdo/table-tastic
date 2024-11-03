@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { reservationSchema } from "../validation/reservations.schema";
+import { v4 as uuidv4 } from "uuid";
+import { reservationSchema, idSchema } from "../validation";
 import {
   FULLY_BOOKED,
   GENERAL_SERVER_ERROR,
@@ -7,18 +8,16 @@ import {
   INVALID_RESERVATION,
   NO_MENU,
   RESERVATION_NOT_FOUND,
-} from "../libs/constants";
-import { v4 as uuidv4 } from "uuid";
-import { getMenuId } from "../services/menus/menus-db-helper-functions";
+} from "../libs";
+import { getMenuId } from "../services/menus";
 import {
   create,
   getById,
   remove,
   update,
-} from "../services/reservations/reservations-db-functions";
-import { getAll } from "../services/reservations/reservations-db-functions";
-import { idSchema } from "../validation/id.schema";
-import { Reservation } from "../db/reservations/reservations-db";
+  getAll,
+} from "../services/reservations";
+import { Reservation } from "../db/reservations";
 
 export const getAllReservations = async (req: Request, res: Response) => {
   try {

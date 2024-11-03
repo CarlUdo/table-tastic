@@ -6,8 +6,8 @@ import {
   FULLY_BOOKED,
   RESERVATION_NOT_FOUND,
   RESERVATIONS_BASE_URL,
-} from "../../src/libs/constants";
-import { reservationsDb as db } from "../../src/db/reservations/reservations-db";
+} from "../../src/libs";
+import { reservationsDb as db } from "../../src/db/reservations";
 
 test("GET all reservations should return all reservations", async () => {
   const app = createApp();

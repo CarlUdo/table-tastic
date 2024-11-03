@@ -1,4 +1,4 @@
-import { getAll } from "./menus-db-functions";
+import { getAll } from ".";
 
 export const getMenuId = async (time: string) => {
   const [hour] = time.split(":").map(Number);

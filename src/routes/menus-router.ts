@@ -5,7 +5,7 @@ import {
   getAllMenus,
   getMenu,
   updateMenu,
-} from "../controllers/menus-controller";
+} from "../controllers";
 
 export const createMenusRouter = () => {
   const router = express.Router();
