@@ -53,20 +53,7 @@ export const update = async (menu: Menu): Promise<Menu | ""> => {
         return;
       }
 
-      const dishesToAdd = menu.dishes.filter(
-        (dish) => !menuToUpdate.dishes.includes(dish),
-      );
-
-      if (dishesToAdd.length === 0) {
-        resolve("");
-        return;
-      }
-
-      resolve({
-        id: menu.id,
-        name: menuToUpdate.name,
-        dishes: [...menuToUpdate.dishes, ...dishesToAdd],
-      });
+      resolve(menu);
     }, 100);
   });
 };
