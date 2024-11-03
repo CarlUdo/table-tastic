@@ -4,11 +4,26 @@
 
 import type { Reservation } from "../../db/reservations/reservations-db";
 import { reservationsDb } from "../../db/reservations/reservations-db";
-import { FULLY_BOOKED } from "../../libs/constants";
+import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../libs/constants";
 
 export const getAll = async (): Promise<Reservation[]> => {
   return new Promise((resolve) => {
     setTimeout(() => resolve(reservationsDb), 100);
+  });
+};
+
+export const getById = async (id: string): Promise<Reservation> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const reservation = reservationsDb.find((dbReservation) => dbReservation.id === id);
+
+      if (!reservation) {
+        reject(new Error(RESERVATION_NOT_FOUND));
+        return;
+      }
+
+      resolve(reservation);
+    }, 100);
   });
 };
 
