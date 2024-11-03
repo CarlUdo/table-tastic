@@ -1,9 +1,10 @@
-import test from "node:test";
+import test, { beforeEach } from "node:test";
 import { deepEqual } from "node:assert/strict";
 import { menusDb as db } from "../../src/db/menus/menus-db";
-import { getAll, getById } from "../../src/services/menus/menus-db-functions";
-import { MENU_NOT_FOUND } from "../../src/libs/constants";
+import { create, getAll, getById } from "../../src/services/menus/menus-db-functions";
+import { MENU_EXISTS, MENU_NOT_FOUND } from "../../src/libs/constants";
 import { rejects } from "node:assert";
+import type { Menu } from "../../src/db/menus/menus-db";
 
 test("getAll should return all menus", async () => {
   const result = await getAll();
@@ -25,4 +26,18 @@ test("getById should throw error if menu not found", async () => {
   await rejects(async () => {
     await getById(invalidId);
   }, new Error(MENU_NOT_FOUND));
+});
+
+test("create should throw error if menu exists", async () => {
+  const id = "42995559-2641-4d33-85e9-9043373fc6bf";
+
+  const newMenu: Menu = { 
+    id, 
+    name: "Dinner Menu", 
+    dishes: ["Chicken wings"] 
+  };
+
+  await rejects(async () => {
+    await create(newMenu);
+  }, new Error(MENU_EXISTS));
 });
