@@ -41,3 +41,35 @@ test("create should throw error if menu exists", async () => {
     await create(newMenu);
   }, new Error(MENU_EXISTS));
 });
+
+test("create should add a new menu", async () => {
+  const initialMenus: Menu[] = [
+    {
+      id: "9de3faf7-36f3-4449-b4b5-7c3393f00e10",
+      name: "Breakfast Menu",
+      dishes: ["Pancakes", "Omelette"],
+    },
+    {
+      id: "fd9c2bf1-8540-4ed9-9be7-155877262259",
+      name: "Lunch Menu",
+      dishes: ["Burger", "Salad"],
+    },
+  ];
+
+  db.length = 0;
+  db.push(...initialMenus);
+
+  const newMenu: Menu = { 
+    id: "7f3f588d-6df3-4f05-be73-be3abf815822", 
+    name: "Dinner Menu", 
+    dishes: ["Chicken wings"] 
+  };
+
+  const result = await create(newMenu);
+
+  deepEqual(result, newMenu);
+
+  const createdMenu = await getById(newMenu.id);
+  
+  deepEqual(createdMenu, newMenu);
+});
