@@ -29,3 +29,28 @@ test("GET reservation by id should return the correct reservation", async () => 
   equal(response.status, 200);
   deepEqual(response.body, expectedReservation);
 });
+
+test("POST a new reservation should create and return the reservation", async () => {
+  const app = createApp();
+
+  const newReservation = {
+    customerName: "Superman",
+    tableNumber: 2,
+    date: "2024-11-24",
+    time: "09:00",
+  };
+
+  const response = await request(app).post(RESERVATIONS_BASE_URL).send(newReservation);
+
+  equal(response.status, 201);
+
+  const createdId = response.body.id;
+
+  equal(response.body.customerName, newReservation.customerName);
+  equal(response.body.tableNumber, newReservation.tableNumber);
+
+  const getResponse = await request(app).get(`${RESERVATIONS_BASE_URL}/${createdId}`);
+
+  equal(getResponse.status, 200);
+  equal(getResponse.body.customerName, newReservation.customerName);
+});
