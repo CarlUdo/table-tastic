@@ -3,13 +3,15 @@ import { reservationSchema } from "../validation/reservations.schema";
 import {
   FULLY_BOOKED,
   GENERAL_SERVER_ERROR,
+  INVALID_ID,
   INVALID_RESERVATION,
   NO_MENU,
 } from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
 import { getMenuId } from "../services/menus/menus-db-helper-functions";
-import { create } from "../services/reservations/reservations-db-functions";
+import { create, getById } from "../services/reservations/reservations-db-functions";
 import { getAll } from "../services/reservations/reservations-db-functions";
+import { idSchema } from "../validation/id.schema";
 
 export const getAllReservations = async (req: Request, res: Response) => {
   try {
@@ -19,6 +21,29 @@ export const getAllReservations = async (req: Request, res: Response) => {
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
+      return;
+    }
+    res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
+  }
+};
+
+export const getReservation = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const validationResult = idSchema.safeParse(id);
+
+    if (!validationResult.success) {
+      res.status(400).json({ error: { message: INVALID_ID } });
+      return;
+    }
+
+    const reservation = await getById(validationResult.data);
+
+    res.status(200).json(reservation);
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: { message: error.message } });
       return;
     }
     res.status(500).json({ error: { message: GENERAL_SERVER_ERROR } });
