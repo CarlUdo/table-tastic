@@ -14,7 +14,7 @@ The planning of the project can be found here:
 
 After finishing, the folder structure looks like this:
 
-![BMI Gauge](src\assets\table-tastic-folder-structure.png)
+![Folder structure](src/assets/table-tastic-folder-structure.png)
 
 ## Project requirements
 
