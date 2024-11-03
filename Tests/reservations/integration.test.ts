@@ -54,3 +54,24 @@ test("POST a new reservation should create and return the reservation", async ()
   equal(getResponse.status, 200);
   equal(getResponse.body.customerName, newReservation.customerName);
 });
+
+test("PUT should update an existing reservation and return the updated reservation", async () => {
+  const app = createApp();
+
+  const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
+
+  const updatedReservation = {
+    customerName: "Updated Name",
+    tableNumber: 10,
+    date: "2024-11-23",
+    time: "08:00",
+  };
+
+  const response = await request(app)
+    .put(`${RESERVATIONS_BASE_URL}/${validId}`)
+    .send(updatedReservation);
+
+  equal(response.status, 200);
+  equal(response.body.customerName, updatedReservation.customerName);
+  equal(response.body.tableNumber, updatedReservation.tableNumber);
+});
