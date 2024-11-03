@@ -48,3 +48,21 @@ export const create = async (
     }, 100);
   });
 };
+
+export const update = async (reservation: Reservation): Promise<Reservation> => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const reservationToUpdate = reservationsDb.find((dbReservation) => dbReservation.id === reservation.id);
+
+      if (!reservationToUpdate) {
+        reject(new Error(RESERVATION_NOT_FOUND));
+        return;
+      }
+
+      console.log("BEFINTLIG: ", reservationToUpdate )
+      console.log("UPPDATERAD: ", reservation)
+
+      resolve(reservation);
+    }, 100);
+  });
+};
