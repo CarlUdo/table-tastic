@@ -1,4 +1,4 @@
-import type { MenuSchema } from "../../validation";
+import type { MenuSchema } from "../../validation/menu.schema";
 
 export type Menu = MenuSchema & {
   id: string;

@@ -6,7 +6,7 @@ import {
   update,
   remove,
 } from "../services/menus/menus-db-functions";
-import { idSchema, menuSchema } from "../validation";
+import { idSchema, menuSchema } from "../validation/menu.schema";
 import {
   GENERAL_SERVER_ERROR,
   INVALID_ID,
