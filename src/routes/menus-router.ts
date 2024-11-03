@@ -13,7 +13,7 @@ export const createMenusRouter = () => {
   router.get("/", getAllMenus);
   router.get("/:id", getMenu);
   router.post("/", addMenu);
-  router.patch("/:id", updateMenu);
+  router.put("/:id", updateMenu);
   router.delete("/:id", deleteMenu);
 
   return router;
