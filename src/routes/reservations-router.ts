@@ -3,6 +3,7 @@ import {
   getAllReservations,
   getReservation,
   makeReservation,
+  updateReservation,
 } from "../controllers/reservations-controller";
 
 export const createReservationsRouter = () => {
@@ -11,6 +12,7 @@ export const createReservationsRouter = () => {
   router.get("/", getAllReservations);
   router.get("/:id", getReservation);
   router.post("/", makeReservation);
+  router.put("/:id", updateReservation);
 
   return router;
 };
