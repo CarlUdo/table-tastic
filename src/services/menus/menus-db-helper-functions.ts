@@ -11,3 +11,7 @@ export const getMenuId = async (time: string) => {
 
   return menus.find((menu) => menu.name === "Dinner Menu")?.id;
 };
+
+export const getMockMenuId = async (): Promise<string> => {
+  return "mocked-menu-id";
+};
