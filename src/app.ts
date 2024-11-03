@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { createMenusRouter, createReservationsRouter } from "./routes";
 import { MENUS_BASE_URL, RESERVATIONS_BASE_URL } from "./libs";
+import { logger } from "./middleware/logger";
 
 export const createApp = () => {
   const menusRouter = createMenusRouter();
@@ -9,6 +10,8 @@ export const createApp = () => {
   const app = express();
 
   app.use(express.json());
+
+  app.use(logger);
 
   app.get("/status", (req: Request, res: Response) => {
     res.status(200).json({ message: "Server is up and running!" });
