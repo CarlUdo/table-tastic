@@ -65,9 +65,6 @@ export const update = async (
         return;
       }
 
-      console.log("BEFINTLIG: ", reservationToUpdate);
-      console.log("UPPDATERAD: ", reservation);
-
       resolve(reservation);
     }, 100);
   });
