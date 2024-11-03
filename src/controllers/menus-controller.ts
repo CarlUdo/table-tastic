@@ -6,7 +6,7 @@ import {
   update,
   remove,
 } from "../services/menus/menus-db-functions";
-import { idSchema, menuSchema } from "../validation/menu.schema";
+import { menuSchema } from "../validation/menu.schema";
 import {
   GENERAL_SERVER_ERROR,
   INVALID_ID,
@@ -14,6 +14,7 @@ import {
   MENU_EXISTS,
 } from "../libs/constants";
 import { v4 as uuidv4 } from "uuid";
+import { idSchema } from "../validation/id.schema";
 
 export const getAllMenus = async (req: Request, res: Response) => {
   try {
