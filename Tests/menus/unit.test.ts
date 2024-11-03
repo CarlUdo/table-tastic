@@ -1,7 +1,7 @@
 import test, { beforeEach } from "node:test";
 import { deepEqual } from "node:assert/strict";
 import { menusDb as db } from "../../src/db/menus/menus-db";
-import { create, getAll, getById, update } from "../../src/services/menus/menus-db-functions";
+import { create, getAll, getById, remove, update } from "../../src/services/menus/menus-db-functions";
 import { MENU_EXISTS, MENU_NOT_FOUND } from "../../src/libs/constants";
 import { rejects } from "node:assert";
 import type { Menu } from "../../src/db/menus/menus-db";
@@ -88,7 +88,7 @@ test("update should modify an existing menu", async () => {
 
 test("update should reject if menu not found", async () => {
   const nonExistingId = "9de3faf7-36f3-4449-b4b5-7c3393f00e17";
-  
+
   const nonExistingMenu: Menu = { 
     id: nonExistingId, 
     name: "Breakfast Menu", 
@@ -99,3 +99,16 @@ test("update should reject if menu not found", async () => {
     await update(nonExistingMenu);
   }, new Error(MENU_NOT_FOUND));
 });
+
+test("remove should delete a menu by id", async () => {
+  const menuId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
+
+  const result = await remove(menuId);
+  
+  deepEqual(result.id, menuId);
+
+  rejects(async () => {
+    await getById(menuId);
+  }, new Error(MENU_NOT_FOUND));
+});
+
