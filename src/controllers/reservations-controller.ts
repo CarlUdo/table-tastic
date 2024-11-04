@@ -10,18 +10,12 @@ import {
   RESERVATION_NOT_FOUND,
 } from "../libs";
 import { getMenuId } from "../services/menus";
-import {
-  create,
-  getById,
-  remove,
-  update,
-  getAll,
-} from "../services/reservations";
+import { createReservationsDb } from "../services/reservations";
 import { Reservation } from "../db/reservations";
 
 export const getAllReservations = async (req: Request, res: Response) => {
   try {
-    const reservations = await getAll();
+    const reservations = await createReservationsDb.getAll();
 
     res.status(200).json(reservations);
   } catch (error) {
@@ -44,7 +38,7 @@ export const getReservation = async (req: Request, res: Response) => {
       return;
     }
 
-    const reservation = await getById(validationResult.data);
+    const reservation = await createReservationsDb.getById(validationResult.data);
 
     res.status(200).json(reservation);
   } catch (error) {
@@ -83,7 +77,7 @@ export const makeReservation = async (req: Request, res: Response) => {
 
     const reservationId = uuidv4();
 
-    const newReservation = await create({
+    const newReservation = await createReservationsDb.create({
       ...validationResult.data,
       id: reservationId,
       menuId,
@@ -140,7 +134,7 @@ export const updateReservation = async (req: Request, res: Response) => {
       menuId,
     };
 
-    const updatedReservation = await update(reservationToUpdate);
+    const updatedReservation = await createReservationsDb.update(reservationToUpdate);
 
     res.status(200).json(updatedReservation);
   } catch (error) {
@@ -165,7 +159,7 @@ export const deleteReservation = async (req: Request, res: Response) => {
       return;
     }
 
-    const reservation = await remove(validationResult.data);
+    const reservation = await createReservationsDb.remove(validationResult.data);
 
     res.status(200).json(reservation);
   } catch (error) {

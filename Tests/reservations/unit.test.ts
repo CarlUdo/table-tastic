@@ -1,26 +1,20 @@
 import test from "node:test";
 import { deepEqual } from "node:assert/strict";
 import { rejects } from "node:assert";
-import {
-  create,
-  getAll,
-  getById,
-  remove,
-  update,
-} from "../../src/services/reservations";
+import { createReservationsDb } from "../../src/services/reservations";
 import { reservationsDb as db, Reservation } from "../../src/db/reservations";
 
 import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../src/libs";
 
 test("getAll should return all reservations", async () => {
-  const result = await getAll();
+  const result = await createReservationsDb.getAll();
   deepEqual(result, db);
 });
 
 test("getById should return the correct reservation by id", async () => {
   const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
 
-  const result = await getById(validId);
+  const result = await createReservationsDb.getById(validId);
 
   deepEqual(
     result,
@@ -32,7 +26,7 @@ test("getById should reject if reservation not found", async () => {
   const invalidId = "invalid-id";
 
   await rejects(async () => {
-    await getById(invalidId);
+    await createReservationsDb.getById(invalidId);
   }, new Error(RESERVATION_NOT_FOUND));
 });
 
@@ -47,7 +41,7 @@ test("create should reject if reservation is fully booked", async () => {
   };
 
   await rejects(async () => {
-    await create(newReservation);
+    await createReservationsDb.create(newReservation);
   }, new Error(FULLY_BOOKED));
 });
 
@@ -61,11 +55,11 @@ test("create should add a new reservation", async () => {
     time: "09:00",
   };
 
-  const result = await create(newReservation);
+  const result = await createReservationsDb.create(newReservation);
 
   deepEqual(result, newReservation);
 
-  const createdReservation = await getById(newReservation.id);
+  const createdReservation = await createReservationsDb.getById(newReservation.id);
 
   deepEqual(createdReservation, newReservation);
 });
@@ -80,7 +74,7 @@ test("update should modify an existing reservation", async () => {
     time: "08:00",
   };
 
-  const result = await update(updatedReservation);
+  const result = await createReservationsDb.update(updatedReservation);
 
   deepEqual(result, updatedReservation);
 });
@@ -98,19 +92,19 @@ test("update should reject if reservation not found", async () => {
   };
 
   await rejects(async () => {
-    await update(nonExistingReservation);
+    await createReservationsDb.update(nonExistingReservation);
   }, new Error(RESERVATION_NOT_FOUND));
 });
 
 test("remove should delete a reservation by id", async () => {
   const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
 
-  const result = await remove(validId);
+  const result = await createReservationsDb.remove(validId);
 
   deepEqual(result.id, validId);
 
   await rejects(async () => {
-    await getById(validId);
+    await createReservationsDb.getById(validId);
   }, new Error(RESERVATION_NOT_FOUND));
 });
 
@@ -118,6 +112,6 @@ test("remove should reject if reservation not found", async () => {
   const invalidId = "non-existent-id";
 
   await rejects(async () => {
-    await remove(invalidId);
+    await createReservationsDb.remove(invalidId);
   }, new Error(RESERVATION_NOT_FOUND));
 });
