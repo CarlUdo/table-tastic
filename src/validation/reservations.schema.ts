@@ -2,11 +2,7 @@ import { z } from "zod";
 
 export const reservationSchema = z.object({
   customerName: z.string(),
-  tableNumber: z
-    .number()
-    .int()
-    .min(1)
-    .max(30, "Table number must be between 1 and 30"),
+  tableNumber: z.number().int(),
   date: z
     .string()
     .refine((val) => !isNaN(Date.parse(val)), { message: "Invalid date" }),
