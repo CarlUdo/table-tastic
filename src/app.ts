@@ -11,7 +11,9 @@ export const createApp = () => {
 
   app.use(express.json());
 
-  app.use(logger);
+  if (process.env.NODE_ENV !== "test") {
+    app.use(logger);
+  }
 
   app.get("/status", (req: Request, res: Response) => {
     res.status(200).json({ message: "Server is up and running!" });
