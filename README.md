@@ -44,4 +44,4 @@ After finishing, the folder structure looks like this:
 
 ## Table Tastic in detail
 
-Please take a look at this program presentation to learn more about it. [Program presentation](https://youtu.be/BzWjhxE8Zr4) 
+Please take a look at the application presentation to learn more about it. [Application presentation](https://youtu.be/BzWjhxE8Zr4)
