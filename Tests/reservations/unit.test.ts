@@ -59,7 +59,9 @@ test("create should add a new reservation", async () => {
 
   deepEqual(result, newReservation);
 
-  const createdReservation = await createReservationsDb.getById(newReservation.id);
+  const createdReservation = await createReservationsDb.getById(
+    newReservation.id,
+  );
 
   deepEqual(createdReservation, newReservation);
 });

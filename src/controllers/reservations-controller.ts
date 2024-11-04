@@ -38,7 +38,9 @@ export const getReservation = async (req: Request, res: Response) => {
       return;
     }
 
-    const reservation = await createReservationsDb.getById(validationResult.data);
+    const reservation = await createReservationsDb.getById(
+      validationResult.data,
+    );
 
     res.status(200).json(reservation);
   } catch (error) {
@@ -134,7 +136,8 @@ export const updateReservation = async (req: Request, res: Response) => {
       menuId,
     };
 
-    const updatedReservation = await createReservationsDb.update(reservationToUpdate);
+    const updatedReservation =
+      await createReservationsDb.update(reservationToUpdate);
 
     res.status(200).json(updatedReservation);
   } catch (error) {
@@ -159,7 +162,9 @@ export const deleteReservation = async (req: Request, res: Response) => {
       return;
     }
 
-    const reservation = await createReservationsDb.remove(validationResult.data);
+    const reservation = await createReservationsDb.remove(
+      validationResult.data,
+    );
 
     res.status(200).json(reservation);
   } catch (error) {
