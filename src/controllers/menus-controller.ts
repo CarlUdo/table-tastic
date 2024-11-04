@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { getAll, getById, create, update, remove } from "../services/menus";
+import { createMenusDb } from "../services/menus";
 import { menuSchema, idSchema } from "../validation";
 import {
   GENERAL_SERVER_ERROR,
@@ -12,7 +12,7 @@ import {
 
 export const getAllMenus = async (req: Request, res: Response) => {
   try {
-    const menus = await getAll();
+    const menus = await createMenusDb.getAll();
 
     res.status(200).json(menus);
   } catch (error) {
@@ -35,7 +35,7 @@ export const getMenu = async (req: Request, res: Response) => {
       return;
     }
 
-    const menu = await getById(validationResult.data);
+    const menu = await createMenusDb.getById(validationResult.data);
 
     res.status(200).json(menu);
   } catch (error) {
@@ -73,7 +73,7 @@ export const addMenu = async (req: Request, res: Response) => {
       ...validationResult.data,
     };
 
-    await create(newMenu);
+    await createMenusDb.create(newMenu);
 
     res.status(201).json(newMenu);
   } catch (error) {
@@ -117,7 +117,7 @@ export const updateMenu = async (req: Request, res: Response) => {
       ...menuValidationResult.data,
     };
 
-    const updatedMenu = await update(menuToUpdate);
+    const updatedMenu = await createMenusDb.update(menuToUpdate);
 
     if (typeof updatedMenu === "string") {
       res.status(204).json();
@@ -148,7 +148,7 @@ export const deleteMenu = async (req: Request, res: Response) => {
       return;
     }
 
-    const menu = await remove(validationResult.data);
+    const menu = await createMenusDb.remove(validationResult.data);
 
     res.status(200).json(menu);
   } catch (error) {
