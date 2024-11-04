@@ -1,8 +1,8 @@
-import { getAll } from ".";
+import { createMenusDb} from ".";
 
 export const getMenuId = async (time: string) => {
   const [hour] = time.split(":").map(Number);
-  const menus = await getAll();
+  const menus = await createMenusDb.getAll();
 
   if (hour >= 0 && hour < 10)
     return menus.find((menu) => menu.name === "Breakfast Menu")?.id;
