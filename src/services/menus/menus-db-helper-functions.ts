@@ -1,4 +1,4 @@
-import { createMenusDb} from ".";
+import { createMenusDb } from ".";
 
 export const getMenuId = async (time: string) => {
   const [hour] = time.split(":").map(Number);
