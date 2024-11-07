@@ -1,4 +1,4 @@
-import { Menu } from "./validation";
+import type { Menu, MenuUpdates } from "./validation";
 
 export const createRepository = () => {
   const menusDb: Menu[] = [
@@ -21,19 +21,19 @@ export const createRepository = () => {
 
   return {
     getAll: async () => menusDb,
-    
-   /*  getById: async (id: string) =>  menusDb.find((dbMenu) => dbMenu.id === id),   */    
-    
-    create: async (menu: Menu) => menusDb.push(menu),  
 
-    update: async (index: number, update: any) => menusDb[index] = { ...menusDb[index], ...update },
+    /*  getById: async (id: string) =>  menusDb.find((dbMenu) => dbMenu.id === id),   */
 
-    remove: async (id: string) => menusDb.filter(menu => menu.id !== id),
+    create: async (menu: Menu) => menusDb.push(menu),
+
+    update: async (index: number, update: MenuUpdates) =>
+      (menusDb[index] = { ...menusDb[index], ...update }),
+
+    remove: async (id: string) => menusDb.filter((menu) => menu.id !== id),
   };
 };
 
 export type Repository = ReturnType<typeof createRepository>;
-
 
 // return {
 //   getAll: async () => menusDb,
