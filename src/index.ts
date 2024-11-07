@@ -6,10 +6,10 @@ import { createRepository } from "./features/menus/repository";
   const PORT = 3000;
   const HOST = "0.0.0.0";
 
-  const client = createRepository();
+  const db = createRepository();
 
   const app = createApp(
-    createMenusFeature(client).router,
+    createMenusFeature(db).router,
     /* createReservationsFeature(client), */
   );
 
