@@ -9,7 +9,7 @@ import { v4 } from "uuid";
 
 export const createService = (db: Repository) => {
   return {
-    getAllMenus: async () => db,
+    getAllMenus: async () => db.getAll(),
 
     getMenu: async (id: string) => {
       const menu = await db.getById(id);
