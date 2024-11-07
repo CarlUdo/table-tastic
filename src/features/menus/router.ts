@@ -1,7 +1,7 @@
 import express from "express";
-import { MenusService } from ".";
+import type { Service } from ".";
 
-export const createRouter = (service: MenusService) => {
+export const createRouter = (service: Service) => {
   const router = express.Router();
 
   router.get("/", async (_req, res) => {
