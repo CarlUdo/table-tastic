@@ -1,5 +1,4 @@
 import express, { Request, Response, Router } from "express";
-import { MENUS_BASE_URL, RESERVATIONS_BASE_URL } from "../libs";
 import { logger } from "../middleware/logger";
 
 export const createApp = (
@@ -17,7 +16,7 @@ export const createApp = (
     res.status(200).json({ message: "Server is up and running!" }); //onödigt med message
   });
 
-  app.use(MENUS_BASE_URL, menusRouter);
+  app.use("/api/v1/menus", menusRouter);
 
   //app.use(RESERVATIONS_BASE_URL, reservationsRouter);
 
