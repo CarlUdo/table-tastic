@@ -6,17 +6,18 @@ export const idSchema = z.object({
 
 const menuNameSchema = z.enum(["Breakfast Menu", "Lunch Menu", "Dinner Menu"]);
 
-export const menuSchema = z.object({
+export const newMenuSchema = z.object({
   name: menuNameSchema,
   dishes: z.array(z.string()),
 });
 
-export const fullMenuSchema = idSchema.merge(menuSchema);
+export const fullMenuSchema = idSchema.merge(newMenuSchema);
 
 export const menuUpdatesSchema = z.object({
   name: menuNameSchema.optional(),
   dishes: z.array(z.string()).optional(),
 });
 
+export type NewMenu = z.infer<typeof newMenuSchema>;
 export type Menu = z.infer<typeof fullMenuSchema>;
 export type MenuUpdates = z.infer<typeof menuUpdatesSchema>;
