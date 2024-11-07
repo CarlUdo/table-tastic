@@ -2,7 +2,9 @@ import express, { Request, Response, Router } from "express";
 import { MENUS_BASE_URL, RESERVATIONS_BASE_URL } from "../libs";
 import { logger } from "../middleware/logger";
 
-export const createApp = (menusRouter: Router/* , reservationsRouter: Router */) => {
+export const createApp = (
+  menusRouter: Router /* , reservationsRouter: Router */,
+) => {
   const app = express();
 
   app.use(express.json());
