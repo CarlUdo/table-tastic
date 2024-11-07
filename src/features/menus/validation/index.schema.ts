@@ -11,6 +11,12 @@ export const menuSchema = z.object({
   dishes: z.array(z.string()),
 });
 
-const fullMenuSchema = menuSchema.merge(idSchema);
+export const fullMenuSchema = idSchema.merge(menuSchema);
+
+export const menuUpdatesSchema = z.object({
+  name: menuNameSchema.optional(),
+  dishes: z.array(z.string()).optional(),
+});
 
 export type Menu = z.infer<typeof fullMenuSchema>;
+export type MenuUpdates = z.infer<typeof menuUpdatesSchema>;
