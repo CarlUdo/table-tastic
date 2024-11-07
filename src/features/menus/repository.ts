@@ -22,7 +22,7 @@ export const createRepository = () => {
   return {
     getAll: async () => menusDb,
 
-    /*  getById: async (id: string) =>  menusDb.find((dbMenu) => dbMenu.id === id),   */
+    getById: async (id: string) => menusDb.find((dbMenu) => dbMenu.id === id),
 
     create: async (menu: Menu) => menusDb.push(menu),
 
