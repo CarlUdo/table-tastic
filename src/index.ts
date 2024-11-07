@@ -9,8 +9,8 @@ import { createRepository } from "./features/menus/repository";
   const client = createRepository();
 
   const app = createApp(
-    createMenusFeature(client),
-    createReservationsFeature(client),
+    createMenusFeature(client).router,
+    /* createReservationsFeature(client), */
   );
 
   app.listen(PORT, HOST, () => {

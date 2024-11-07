@@ -33,3 +33,37 @@ export const createRepository = () => {
 };
 
 export type Repository = ReturnType<typeof createRepository>;
+
+
+// return {
+//   getAll: async () => menusDb,
+//   getById: async (id: string) => {
+//     const menu = menusDb.find((dbMenu) => dbMenu.id === id);
+//     if (!menu) throw new Error(MENU_NOT_FOUND);
+//     return menu;
+//   },
+//   create: async (menu: Menu) => {
+//     const exists = menusDb.some((dbMenu) => dbMenu.name === menu.name);
+//     if (exists) throw new Error(MENU_EXISTS);
+//     menusDb.push(menu);
+//     return menu; // Kanske inte bör returnera något!!
+//   },
+//   update: async (menu: Menu) => {
+//     const menuToUpdate = menusDb.find((dbMenu) => dbMenu.id === menu.id);
+
+//     if (!menuToUpdate) return new Error(MENU_NOT_FOUND);
+
+//     return menu; // Uppdatera den här inne med det som ska uppdateras anting PUT eller PATCH
+//   },
+//   remove: async (id: string) => {
+//     const menu = menusDb.find((dbMenu) => dbMenu.id === id);
+//     if (!menu) throw (new Error(MENU_NOT_FOUND));
+
+//     const updatedMenusDb = menusDb.filter((dbMenu) => dbMenu.id !== id);
+
+//     menusDb.length = 0;
+//     menusDb.push(...updatedMenusDb);
+
+//     return menu; // Inget ska returneras!!
+//   },
+// };
