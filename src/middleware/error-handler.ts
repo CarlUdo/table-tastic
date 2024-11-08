@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
-import { BadRequestError, NotFoundError } from "../errors";
+import { BadRequestError, DuplicateKeyError, NotFoundError } from "../errors";
 
 export const createErrorRequestHandler = (): ErrorRequestHandler => {
   return (err, _req, res, _next) => {
@@ -15,6 +15,11 @@ export const createErrorRequestHandler = (): ErrorRequestHandler => {
     }
 
     if (err instanceof BadRequestError) {
+      res.status(err.statusCode).json({ error: err.message });
+      return;
+    }
+
+    if (err instanceof DuplicateKeyError) {
       res.status(err.statusCode).json({ error: err.message });
       return;
     }
