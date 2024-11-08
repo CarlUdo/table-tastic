@@ -11,6 +11,7 @@ export class AppError extends Error {
   get statusCode() {
     if (this.name === "NotFoundError") return 404;
     if (this.name === "BadRequestError") return 400;
+    if (this.name === "DuplicateKeyError") return 409;
     return 500;
   }
 }
@@ -21,6 +22,12 @@ export class BadRequestError extends AppError {
 }
 
 export class NotFoundError extends AppError {
+  constructor(message: string, cause?: Error) {
+    super(message, cause);
+  }
+}
+
+export class DuplicateKeyError extends AppError {
   constructor(message: string, cause?: Error) {
     super(message, cause);
   }
