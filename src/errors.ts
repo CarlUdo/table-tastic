@@ -8,9 +8,9 @@ export class AppError extends Error {
     }
     this.name = this.constructor.name;
   }
-  statusMessage() {
-    if (this.name === "NotFoundError") return "NOT_FOUND_ERROR";
-    if (this.name === "BadRequestError") return "BAD_REQUEST_ERROR";
+  get statusCode() {
+    if (this.name === "NotFoundError") return 404;
+    if (this.name === "BadRequestError") return 400;
     return 500;
   }
 }
