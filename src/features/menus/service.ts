@@ -1,4 +1,6 @@
 import {
+  DishesUpdates,
+  dishesUpdatesSchema,
   MenuUpdates,
   menuUpdatesSchema,
   newMenuSchema,
@@ -14,9 +16,11 @@ export const createService = (db: Repository) => {
 
     getMenu: async (id: string) => {
       const menu = await db.getById(id);
-      if (!menu) throw new NotFoundError("Menu not found");
+      if (!menu) throw new NotFoundError("Menu not found.");
       return menu;
     },
+
+    
 
     addMenu: async (rawData: NewMenu) => {
       const parsedMenu = newMenuSchema.parse(rawData);
@@ -25,17 +29,17 @@ export const createService = (db: Repository) => {
       db.create({ id: v4(), ...parsedMenu });
     },
 
-    updateMenu: async (rawData: MenuUpdates, id: string) => {
-      //const parsedUpdates = menuUpdatesSchema.parse(rawData);
-      console.log("Parsed updates: ", rawData);
-      const index = (await db.getAll()).findIndex((menu) => menu.id === id);
-      if (index === -1) throw new Error("Menu not found");
-      return await db.update(rawData, index);
+    updateMenu: async (rawData: DishesUpdates, id: string) => {
+      const parsedUpdates = dishesUpdatesSchema.parse(rawData);      
+      const menu = await db.getById(id);
+      if (!menu) throw new NotFoundError("Menu not found.");
+      const newDishes = [...menu.dishes, ...(parsedUpdates.dishes ?? [])];
+      return await db.update({...menu, dishes: newDishes}, id);
     },
 
     removeMenu: async (id: string) => {
       const index = (await db.getAll()).findIndex((menu) => menu.id === id);
-      if (index === -1) throw new Error("Menu not found");
+      if (index === -1) throw new NotFoundError("Menu not found.");
       db.remove(id);
     },
   };
