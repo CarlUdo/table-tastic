@@ -13,11 +13,10 @@ export const newMenuSchema = z.object({
 
 export const fullMenuSchema = idSchema.merge(newMenuSchema);
 
-export const menuUpdatesSchema = z.object({
-  name: menuNameSchema.optional(),
+export const dishesUpdatesSchema = z.object({
   dishes: z.array(z.string()).optional(),
 });
 
 export type NewMenu = z.infer<typeof newMenuSchema>;
 export type Menu = z.infer<typeof fullMenuSchema>;
-export type MenuUpdates = z.infer<typeof menuUpdatesSchema>;
+export type DishesUpdates = z.infer<typeof dishesUpdatesSchema>;
