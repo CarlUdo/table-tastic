@@ -1,5 +1,6 @@
 import express, { Request, Response, Router } from "express";
 import { logger } from "../middleware/logger";
+import { createErrorRequestHandler } from "../middleware/error-handler";
 
 export const createApp = (
   menusRouter: Router /* , reservationsRouter: Router */,
@@ -23,6 +24,8 @@ export const createApp = (
   app.use((req: Request, res: Response) => {
     res.status(404).json({ error: "Not found" });
   });
+
+  app.use(createErrorRequestHandler());
 
   return app;
 };
