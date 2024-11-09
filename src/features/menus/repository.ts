@@ -32,7 +32,11 @@ export const createRepository = () => {
       return menusDb[index];
     },
 
-    remove: async (id: string) => menusDb.filter((menu) => menu.id !== id),
+    remove: async (id: string) => {
+      const updatedMenusDb = menusDb.filter((dbMenu) => dbMenu.id !== id);
+      menusDb.length = 0;
+      menusDb.push(...updatedMenusDb);
+    },
   };
 };
 
