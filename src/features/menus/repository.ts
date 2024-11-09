@@ -26,10 +26,10 @@ export const createRepository = () => {
 
     create: async (menu: Menu) => menusDb.push(menu),
 
-    update: async (menu: Menu, id: string) => {
-      const index = menusDb.findIndex((menu) => menu.id === id);
-      menusDb[index] = menu;
-      return menu;
+    update: async (dishes: string[], index: number) => {
+      menusDb[index] = { ...menusDb[index], dishes };
+
+      return menusDb[index];
     },
 
     remove: async (id: string) => menusDb.filter((menu) => menu.id !== id),
