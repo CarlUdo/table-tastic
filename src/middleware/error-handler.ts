@@ -1,9 +1,9 @@
 import { ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
-import { BadRequestError, DuplicateKeyError, NotFoundError } from "../errors";
+import { BadRequestError, DuplicateKeyError, NotFoundError } from "../libs/errors";
 
 export const createErrorRequestHandler = (): ErrorRequestHandler => {
-  return (err, _req, res, _next) => {
+  return (err, _req, res, next) => {
     if (err instanceof ZodError) {
       res.status(400).json(err.errors);
       return;
