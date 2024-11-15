@@ -14,7 +14,7 @@ export const createApp = (
   }
 
   app.get("/status", (req: Request, res: Response) => {
-    res.status(200).json({ message: "Server is up and running!" }); //onödigt med message
+    res.status(200).json(); 
   });
 
   app.use("/api/v1/menus", menusRouter);
