@@ -10,7 +10,7 @@ import {
   BadRequestError,
   DuplicateKeyError,
   NotFoundError,
-} from "../../errors";
+} from "../../libs";
 
 export const createService = (db: Repository) => {
   return {
@@ -28,7 +28,7 @@ export const createService = (db: Repository) => {
         (dbMenu) => dbMenu.name === parsedMenu.name,
       );
       if (exists) throw new DuplicateKeyError("Menu name already exists.");
-      db.create({ id: v4(), ...parsedMenu });
+      return db.create({ id: v4(), ...parsedMenu });
     },
 
     updateMenu: async (rawData: DishesUpdates, id: string) => {
@@ -47,7 +47,7 @@ export const createService = (db: Repository) => {
     removeMenu: async (id: string) => {
       const index = (await db.getAll()).findIndex((menu) => menu.id === id);
       if (index === -1) throw new NotFoundError("Menu not found.");
-      db.remove(id);
+      return await db.remove(id);
     },
   };
 };
