@@ -23,7 +23,11 @@ export const createRouter = (service: Service) => {
     await service.addMenu(req.body);
     res.status(201).json();
   });
-  // router.put("/:id", updateMenu);
-  // router.delete("/:id", deleteMenu);
+
+  router.delete("/:id", async (req, res) => {
+    await service.removeMenu(req.params.id);
+    res.status(204).json();
+  });
+  
   return router;
 };
