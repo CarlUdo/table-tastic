@@ -1,7 +1,5 @@
 import { createApp } from "./app/app";
-import { createDatabase } from "./features/menus";
-import { createMenusFeature } from "./features/menus/feature";
-import { createRepository } from "./features/menus/repository";
+import { createDatabase, createMenusFeature, createRepository } from "./features/menus";
 
 (() => {
   const PORT = 3000;
@@ -9,10 +7,8 @@ import { createRepository } from "./features/menus/repository";
 
   const db = createRepository(createDatabase());
 
-  const app = createApp(
-    createMenusFeature(db).router,
-    /* createReservationsFeature(client), */
-  );
+  const menusRouter = createMenusFeature(db).router;
+  const app = createApp(menusRouter);
 
   app.listen(PORT, HOST, () => {
     console.log(`Server is up an running on http://${HOST}:${PORT}`);
