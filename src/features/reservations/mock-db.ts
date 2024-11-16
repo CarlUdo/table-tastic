@@ -1,6 +1,6 @@
 import type { Reservation } from "./validation/index.schema";
 
-export const createDatabase = (): Reservation[] => {
+export const createReservationsDatabase = (): Reservation[] => {
   return [
     {
       id: "f576ecc3-b655-488a-b83d-dfbd0182ba5d",
