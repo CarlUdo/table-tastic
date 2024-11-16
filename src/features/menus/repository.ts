@@ -1,6 +1,6 @@
 import type { Menu } from "./validation";
 
-export const createRepository = (menusDb: Menu[]) => {
+export const createMenusRepository = (menusDb: Menu[]) => {
   return {
     getAll: async () => menusDb,
 
@@ -26,4 +26,4 @@ export const createRepository = (menusDb: Menu[]) => {
   };
 };
 
-export type Repository = ReturnType<typeof createRepository>;
+export type Repository = ReturnType<typeof createMenusRepository>;
