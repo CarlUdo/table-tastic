@@ -1,15 +1,9 @@
 import express, { Request, Response, Router } from "express";
 import { logger } from "../middleware/logger";
 import { createErrorRequestHandler } from "../middleware/error-handler";
-import { createDatabase, createMenusFeature, createRepository } from "../features/menus";
 
-export const createApp = (menusRouter: Router) => {
+export const createApp = (menusRouter: Router, reservationsRouter: Router) => {
   const app = express();
-
-  //const db = createRepository(createDatabase());
-
-  //const menusRouter = createMenusFeature(db).router;
-  //const reservationsRouter = createReservat (db).router;
 
   app.use(express.json());
 
@@ -23,7 +17,7 @@ export const createApp = (menusRouter: Router) => {
 
   app.use("/api/v1/menus", menusRouter);
 
-  //app.use(RESERVATIONS_BASE_URL, reservationsRouter);
+  app.use("/api/v1/reservations", reservationsRouter);
 
   app.use((req: Request, res: Response) => {
     res.status(404).json({ error: "Not found" });
