@@ -1,15 +1,15 @@
-import type { Reservation } from "./validation/index.schema";
+import type { Reservation } from "./validation";
 
-export const createRepository = (reservationsDb: Reservation[]) => {
+export const createReservationsRepository = (reservationsDb: Reservation[]) => {
   return {
     getAll: async () => reservationsDb,
 
     getById: async (id: string) => reservationsDb.find((dbReservation) => dbReservation.id === id),
 
-    create: async (reservation: Reservation) => {
-      reservationsDb.push(reservation);
-      return reservation;
-    },
+    // create: async (reservation: Reservation) => {
+    //   reservationsDb.push(reservation);
+    //   return reservation;
+    // },
 
     // update: async (dishes: string[], index: number) => {
     //   reservationsDb[index] = { ...reservationsDb[index], dishes };
@@ -26,4 +26,4 @@ export const createRepository = (reservationsDb: Reservation[]) => {
   };
 };
 
-export type Repository = ReturnType<typeof createRepository>;
+export type Repository = ReturnType<typeof createReservationsRepository>;
