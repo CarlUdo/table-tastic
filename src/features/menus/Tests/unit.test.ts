@@ -4,8 +4,9 @@ import assert from "node:assert";
 import { createService } from "../service";
 import { createRepository } from "../repository";
 import { createDatabase } from "../mock-db";
-import { DuplicateKeyError, NotFoundError } from "../../../libs";
+import { BadRequestError, DuplicateKeyError, NotFoundError } from "../../../libs";
 import type { Menu, NewMenu } from "../validation";
+import { MENU_EXISTS, MENU_NOT_FOUND, MENU_WRONG_INPUT } from "../constants";
 
 test("Database is empty | getAll should return []", async () => {
   const service = createService(createRepository([])); 
@@ -47,7 +48,7 @@ test("getMenu should throw NotFoundError if menu not found", async () => {
   await assert.rejects( 
     async () => { 
       await service.getMenu(invalidId); 
-    }, new NotFoundError("Menu not found.")
+    }, new NotFoundError(MENU_NOT_FOUND)
   );
 });
 
@@ -63,7 +64,7 @@ test("addMenu should throw DuplicateKeyError if menu already exists", async () =
   await assert.rejects( 
     async () => { 
       await service.addMenu(newMenu); 
-    }, new DuplicateKeyError("Menu name already exists.")
+    }, new DuplicateKeyError(MENU_EXISTS)
   );  
 });
 
@@ -127,7 +128,25 @@ test("update should reject if menu not found", async () => {
   await assert.rejects( 
     async () => { 
       await service.updateMenu(menu, invalidId); 
-    }, new NotFoundError("Menu not found.")
+    }, new NotFoundError(MENU_NOT_FOUND)
+  );
+});
+
+test("update should reject for wrong input", async () => {
+  const db = createDatabase();
+  const service = createService(createRepository(db)); 
+
+  const validId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
+
+  const wrongMenu: NewMenu = {
+    name: "Breakfast Menu",
+    dishesss: ["Pancakes", "Omelette"], // This error is intentional
+  };  
+
+  await assert.rejects( 
+    async () => { 
+      await service.updateMenu(wrongMenu, validId); 
+    }, new BadRequestError(MENU_WRONG_INPUT)
   );
 });
 
@@ -146,7 +165,7 @@ test("remove should delete a menu by id", async () => {
   await assert.rejects( 
     async () => { 
       await service.getMenu(validId); 
-    }, new NotFoundError("Menu not found.")
+    }, new NotFoundError(MENU_NOT_FOUND)
   );
 });
 
@@ -159,6 +178,6 @@ test("remove should reject if menu not found", async () => {
   await assert.rejects( 
     async () => { 
       await service.getMenu(invalidId); 
-    }, new NotFoundError("Menu not found.")
+    }, new NotFoundError(MENU_NOT_FOUND)
   );
 });
