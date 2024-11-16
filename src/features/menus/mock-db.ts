@@ -1,6 +1,6 @@
 import type { Menu } from "./validation";
 
-export const createDatabase = (): Menu[] => {
+export const createMenusDatabase = (): Menu[] => {
   return [
     {
       id: "9de3faf7-36f3-4449-b4b5-7c3393f00e10",
