@@ -20,13 +20,13 @@ export const createRouter = (service: Service) => {
   });
 
   router.post("/", async (req, res) => {
-    await service.addMenu(req.body);
-    res.status(201).json();
+    const menu = await service.addMenu(req.body);
+    res.status(201).json(menu);
   });
 
   router.delete("/:id", async (req, res) => {
-    await service.removeMenu(req.params.id);
-    res.status(204).json();
+    const menu = await service.removeMenu(req.params.id);
+    res.status(200).json(menu);
   });
   
   return router;
