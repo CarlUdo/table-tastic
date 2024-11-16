@@ -1,4 +1,5 @@
 import { createApp } from "./app/app";
+import { createDatabase } from "./features/menus";
 import { createMenusFeature } from "./features/menus/feature";
 import { createRepository } from "./features/menus/repository";
 
@@ -6,7 +7,7 @@ import { createRepository } from "./features/menus/repository";
   const PORT = 3000;
   const HOST = "0.0.0.0";
 
-  const db = createRepository();
+  const db = createRepository(createDatabase());
 
   const app = createApp(
     createMenusFeature(db).router,
