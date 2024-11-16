@@ -3,7 +3,7 @@ import {
   dishesUpdatesSchema,
   newMenuSchema,
   type NewMenu,
-} from "./validation";
+} from ".";
 import { Repository } from ".";
 import { v4 } from "uuid";
 import {
@@ -11,6 +11,7 @@ import {
   DuplicateKeyError,
   NotFoundError,
 } from "../../libs";
+import { MENU_EXISTS, MENU_NOT_FOUND, MENU_WRONG_INPUT } from "./constants";
 
 export const createService = (db: Repository) => {
   return {
@@ -18,7 +19,7 @@ export const createService = (db: Repository) => {
 
     getMenu: async (id: string) => {
       const menu = await db.getById(id);
-      if (!menu) throw new NotFoundError("Menu not found.");
+      if (!menu) throw new NotFoundError(MENU_NOT_FOUND);
       return menu;
     },
 
@@ -27,17 +28,17 @@ export const createService = (db: Repository) => {
       const exists = (await db.getAll()).some(
         (dbMenu) => dbMenu.name === parsedMenu.name,
       );
-      if (exists) throw new DuplicateKeyError("Menu name already exists.");
+      if (exists) throw new DuplicateKeyError(MENU_EXISTS);
       return db.create({ id: v4(), ...parsedMenu });
     },
 
     updateMenu: async (rawData: DishesUpdates, id: string) => {
       const { dishes } = dishesUpdatesSchema.parse(rawData);
-      if (!dishes) throw new BadRequestError("Wrong input for updating menu.");
+      if (!dishes) throw new BadRequestError(MENU_WRONG_INPUT);
 
       const menus = await db.getAll();
       const index = menus.findIndex((menu) => menu.id === id);
-      if (index === -1) throw new NotFoundError("Menu not found.");
+      if (index === -1) throw new NotFoundError(MENU_NOT_FOUND);
 
       const dishesSet = new Set([...menus[index].dishes, ...dishes]);
 
@@ -46,7 +47,7 @@ export const createService = (db: Repository) => {
 
     removeMenu: async (id: string) => {
       const index = (await db.getAll()).findIndex((menu) => menu.id === id);
-      if (index === -1) throw new NotFoundError("Menu not found.");
+      if (index === -1) throw new NotFoundError(MENU_NOT_FOUND);
       return await db.remove(id);
     },
   };
