@@ -11,7 +11,7 @@ import {
   DuplicateKeyError,
   NotFoundError,
 } from "../../libs";
-import { MENU_EXISTS, MENU_NOT_FOUND, MENU_WRONG_INPUT } from "./constants";
+import { MENU_EXISTS, MENU_NOT_FOUND, MENU_WRONG_INPUT } from ".";
 
 export const createService = (db: Repository) => {
   return {
