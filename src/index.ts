@@ -1,14 +1,18 @@
 import { createApp } from "./app/app";
-import { createDatabase, createMenusFeature, createRepository } from "./features/menus";
+import { createMenusDatabase, createMenusFeature, createMenusRepository } from "./features/menus";
+import { createReservationsDatabase, createReservationsFeature, createReservationsRepository } from "./features/reservations";
 
 (() => {
   const PORT = 3000;
   const HOST = "0.0.0.0";
 
-  const db = createRepository(createDatabase());
+  const menusDb = createMenusRepository(createMenusDatabase());
+  const menusRouter = createMenusFeature(menusDb).router;
 
-  const menusRouter = createMenusFeature(db).router;
-  const app = createApp(menusRouter);
+  const reservationsDb = createReservationsRepository(createReservationsDatabase());
+  const reservationsRouter = createReservationsFeature(reservationsDb).router;
+  
+  const app = createApp(menusRouter, reservationsRouter);
 
   app.listen(PORT, HOST, () => {
     console.log(`Server is up an running on http://${HOST}:${PORT}`);
