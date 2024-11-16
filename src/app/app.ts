@@ -1,11 +1,15 @@
 import express, { Request, Response, Router } from "express";
 import { logger } from "../middleware/logger";
 import { createErrorRequestHandler } from "../middleware/error-handler";
+import { createDatabase, createMenusFeature, createRepository } from "../features/menus";
 
-export const createApp = (
-  menusRouter: Router /* , reservationsRouter: Router */,
-) => {
+export const createApp = (menusRouter: Router) => {
   const app = express();
+
+  //const db = createRepository(createDatabase());
+
+  //const menusRouter = createMenusFeature(db).router;
+  //const reservationsRouter = createReservat (db).router;
 
   app.use(express.json());
 
