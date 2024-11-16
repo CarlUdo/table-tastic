@@ -13,14 +13,15 @@ export const createRepository = (menusDb: Menu[]) => {
 
     update: async (dishes: string[], index: number) => {
       menusDb[index] = { ...menusDb[index], dishes };
-
       return menusDb[index];
     },
 
     remove: async (id: string) => {
+      const removedMenu = menusDb.find((dbMenu) => dbMenu.id === id);
       const updatedMenusDb = menusDb.filter((dbMenu) => dbMenu.id !== id);
       menusDb.length = 0;
       menusDb.push(...updatedMenusDb);
+      return removedMenu;
     },
   };
 };
