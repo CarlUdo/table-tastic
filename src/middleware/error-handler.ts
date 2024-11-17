@@ -14,11 +14,6 @@ export const createErrorRequestHandler = (): ErrorRequestHandler => {
       return;
     }
 
-    if (err instanceof BadRequestError) {
-      res.status(err.statusCode).json({ error: err.message });
-      return;
-    }
-
     if (err instanceof DuplicateKeyError) {
       res.status(err.statusCode).json({ error: err.message });
       return;
