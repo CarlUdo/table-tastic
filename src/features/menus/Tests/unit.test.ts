@@ -115,7 +115,7 @@ test("update should modify an existing menu", async () => {
   deepEqual(result, { id: validId, ...updatedMenu });
 });
 
-test("update should reject if menu not found", async () => {
+test("update should throw NotFoundError if menu not found", async () => {
   const db = createMenusDatabase();
   const service = createService(createMenusRepository(db));
 
@@ -148,7 +148,7 @@ test("remove should delete a menu by id", async () => {
   }, new NotFoundError(MENU_NOT_FOUND));
 });
 
-test("remove should reject if menu not found", async () => {
+test("remove should throw NotFoundError if menu not found", async () => {
   const db = createMenusDatabase();
   const service = createService(createMenusRepository(db));
 
