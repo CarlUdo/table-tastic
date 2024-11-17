@@ -7,11 +7,10 @@ import {
 import { Repository } from ".";
 import { v4 } from "uuid";
 import {
-  BadRequestError,
   DuplicateKeyError,
   NotFoundError,
 } from "../../libs";
-import { MENU_EXISTS, MENU_NOT_FOUND, MENU_WRONG_INPUT } from ".";
+import { MENU_EXISTS, MENU_NOT_FOUND } from ".";
 
 export const createService = (db: Repository) => {
   return {
@@ -34,8 +33,6 @@ export const createService = (db: Repository) => {
 
     updateMenu: async (rawData: DishesUpdates, id: string) => {
       const { dishes } = dishesUpdatesSchema.parse(rawData);
-      if (!dishes) throw new BadRequestError(MENU_WRONG_INPUT);
-
       const menus = await db.getAll();
       const index = menus.findIndex((menu) => menu.id === id);
       if (index === -1) throw new NotFoundError(MENU_NOT_FOUND);
