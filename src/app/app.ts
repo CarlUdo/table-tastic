@@ -1,6 +1,5 @@
-import express, { Request, Response, Router } from "express";
-import { logger } from "../middleware/logger";
-import { createErrorRequestHandler } from "../middleware/error-handler";
+import express, { Router } from "express";
+import { logger, createErrorRequestHandler } from "../middleware";
 
 export const createApp = (menusRouter: Router, reservationsRouter: Router) => {
   const app = express();
@@ -11,7 +10,7 @@ export const createApp = (menusRouter: Router, reservationsRouter: Router) => {
     app.use(logger);
   }
 
-  app.get("/status", (req: Request, res: Response) => {
+  app.get("/status", (req, res) => {
     res.status(200).json(); 
   });
 
@@ -19,7 +18,7 @@ export const createApp = (menusRouter: Router, reservationsRouter: Router) => {
 
   app.use("/api/v1/reservations", reservationsRouter);
 
-  app.use((req: Request, res: Response) => {
+  app.use((req, res) => {
     res.status(404).json({ error: "Not found" });
   });
 
