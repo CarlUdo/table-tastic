@@ -6,7 +6,11 @@ import { createReservationsDatabase } from "../mock-db";
 import { createService } from "../service";
 import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../constants";
 import { DuplicateKeyError, NotFoundError } from "../../../libs";
-import type { NewReservation, Reservation, ReservationUpdates } from "../validation";
+import type {
+  NewReservation,
+  Reservation,
+  ReservationUpdates,
+} from "../validation";
 
 test("Database is empty | getAll should return []", async () => {
   const service = createService(createReservationsRepository([]));
@@ -55,10 +59,10 @@ test("makeReservation should throw DuplicateKeyError if restaurant is fully book
   const service = createService(createReservationsRepository(db));
 
   const duplicateReservation: NewReservation = {
-    "customerName": "Queen Silvia",
-    "tableNumber": 9,
-    "date": "2024-11-23",
-    "time": "08:00"
+    customerName: "Queen Silvia",
+    tableNumber: 9,
+    date: "2024-11-23",
+    time: "08:00",
   };
 
   await assert.rejects(async () => {
@@ -71,10 +75,10 @@ test("makeReservation should make new reservation", async () => {
   const service = createService(createReservationsRepository(db));
 
   const newReservation: NewReservation = {
-    "customerName": "Elvis",
-    "tableNumber": 9,
-    "date": "2024-12-23",
-    "time": "08:00"
+    customerName: "Elvis",
+    tableNumber: 9,
+    date: "2024-12-23",
+    time: "08:00",
   };
 
   const result = await service.makeReservation(newReservation);
@@ -88,12 +92,12 @@ test("update should modify an existing reservation", async () => {
 
   const validId = "b7f24239-4698-4efc-94e3-18eaa3503677";
 
-   const updatedReservation: Reservation = {
-    "id": "b7f24239-4698-4efc-94e3-18eaa3503677",
-    "customerName": "Santa Claus",
-    "tableNumber": 24,
-    "date": "2024-12-24",
-    "time": "21:00"
+  const updatedReservation: Reservation = {
+    id: "b7f24239-4698-4efc-94e3-18eaa3503677",
+    customerName: "Santa Claus",
+    tableNumber: 24,
+    date: "2024-12-24",
+    time: "21:00",
   };
 
   const result = await service.updateReservation(updatedReservation, validId);
@@ -108,11 +112,11 @@ test("update should throw NotFoundError if reservation not found", async () => {
   const invalidId = "b7f24239-4694-4efc-94e3-18eaa3503677";
 
   const updatedReservation: Reservation = {
-    "id": "b7f24239-4694-4efc-94e3-18eaa3503677",
-    "customerName": "Superman",
-    "tableNumber": 20,
-    "date": "2024-12-21",
-    "time": "21:00"
+    id: "b7f24239-4694-4efc-94e3-18eaa3503677",
+    customerName: "Superman",
+    tableNumber: 20,
+    date: "2024-12-21",
+    time: "21:00",
   };
 
   await assert.rejects(async () => {
@@ -147,7 +151,6 @@ test("remove should throw NotFoundError if reservation not found", async () => {
     await service.removeReservation(invalidId);
   }, new NotFoundError(RESERVATION_NOT_FOUND));
 });
-
 
 // test("getById should return the correct reservation by id", async () => {
 //   const validId = "f576ecc3-b655-488a-b83d-dfbd0182ba5d";
