@@ -14,10 +14,10 @@ export const createRouter = (service: Service) => {
     res.status(200).json(menu);
   });
 
-  // router.patch("/:id", async (req, res) => {
-  //   const menu = await service.updateReservation (req.body, req.params.id);
-  //   res.status(200).json(menu);
-  // });
+  router.patch("/:id", async (req, res) => {
+    const menu = await service.updateReservation(req.body, req.params.id);
+    res.status(200).json(menu);
+  });
 
   // router.post("/", async (req, res) => {
   //   const menu = await service.addReservation(req.body);
