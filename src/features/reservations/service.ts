@@ -1,4 +1,5 @@
 import {
+  FULLY_BOOKED,
   newReservationSchema,
   RESERVATIONS_WRONG_INPUT,
   ReservationUpdates,
@@ -7,7 +8,6 @@ import {
 } from ".";
 import { v4 } from "uuid";
 import {
-  BadRequestError,
   DuplicateKeyError,
   NotFoundError,
 } from "../../libs";
@@ -24,14 +24,14 @@ export const createService = (db: Repository) => {
       return reservation;
     },
 
-    // addReservation: async (rawData: NewReservation) => {
-    //   const parsedReservation = newReservationSchema.parse(rawData);
-    //   const exists = (await db.getAll()).some(
-    //     (dbReservation) => dbReservation.name === parsedMenu.name,
-    //   );
-    //   if (exists) throw new DuplicateKeyError("Menu name already exists.");
-    //   return db.create({ id: v4(), ...parsedMenu });
-    // },
+    makeReservation: async (rawData: NewReservation) => {
+      const reservation = newReservationSchema.parse(rawData);
+      const exists = (await db.getAll()).some(
+        (dbReservation) => dbReservation.date === reservation.date,
+      );
+      if (exists) throw new DuplicateKeyError(FULLY_BOOKED);
+      return db.create({ id: v4(), ...reservation });
+    },
 
     updateReservation: async (rawData: ReservationUpdates, id: string) => {
       const updates = reservationUpdatesSchema.parse(rawData);
