@@ -1,5 +1,8 @@
 import {
   newReservationSchema,
+  RESERVATIONS_WRONG_INPUT,
+  ReservationUpdates,
+  reservationUpdatesSchema,
   type NewReservation,
 } from ".";
 import { v4 } from "uuid";
@@ -30,18 +33,13 @@ export const createService = (db: Repository) => {
     //   return db.create({ id: v4(), ...parsedMenu });
     // },
 
-    // updateMenu: async (rawData: DishesUpdates, id: string) => {
-    //   const { dishes } = dishesUpdatesSchema.parse(rawData);
-    //   if (!dishes) throw new BadRequestError("Wrong input for updating menu.");
-
-    //   const menus = await db.getAll();
-    //   const index = menus.findIndex((menu) => menu.id === id);
-    //   if (index === -1) throw new NotFoundError("Menu not found.");
-
-    //   const dishesSet = new Set([...menus[index].dishes, ...dishes]);
-
-    //   return await db.update([...dishesSet], index);
-    // },
+    updateReservation: async (rawData: ReservationUpdates, id: string) => {
+      const updates = reservationUpdatesSchema.parse(rawData);
+      const reservations = await db.getAll();
+      const index = reservations.findIndex((reservation) => reservation.id === id);
+      if (index === -1) throw new NotFoundError(RESERVATION_NOT_FOUND);
+      return await db.update(updates, index);
+    },
 
     removeReservation: async (id: string) => {
       const index = (await db.getAll()).findIndex((reservation) => reservation.id === id);
