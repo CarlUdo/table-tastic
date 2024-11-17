@@ -155,6 +155,6 @@ test("remove should throw NotFoundError if menu not found", async () => {
   const invalidId = "9de3faf7-36f3-4449-b4b5-7c3393f09e10";
 
   await assert.rejects(async () => {
-    await service.getMenu(invalidId);
+    await service.removeMenu(invalidId);
   }, new NotFoundError(MENU_NOT_FOUND));
 });
