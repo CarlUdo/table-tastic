@@ -1,4 +1,4 @@
-import { createRouter, createService, Repository } from ".";
+import { createRouter, createService, type Repository } from ".";
 
 export const createReservationsFeature = (db: Repository) => {
   const reservationsService = createService(db);

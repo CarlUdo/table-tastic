@@ -18,7 +18,7 @@ export const createApp = (menusRouter: Router, reservationsRouter: Router) => {
 
   app.use("/api/v1/reservations", reservationsRouter);
 
-  app.use((req, res) => {
+  app.use((_req, res) => {
     res.status(404).json({ error: "Not found" });
   });
 
