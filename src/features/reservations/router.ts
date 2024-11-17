@@ -19,10 +19,10 @@ export const createRouter = (service: Service) => {
     res.status(200).json(menu);
   });
 
-  // router.post("/", async (req, res) => {
-  //   const menu = await service.addReservation(req.body);
-  //   res.status(201).json(menu);
-  // });
+  router.post("/", async (req, res) => {
+    const menu = await service.makeReservation(req.body);
+    res.status(201).json(menu);
+  });
 
   router.delete("/:id", async (req, res) => {
     const menu = await service.removeReservation(req.params.id);
