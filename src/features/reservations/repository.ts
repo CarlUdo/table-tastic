@@ -6,10 +6,10 @@ export const createReservationsRepository = (reservationsDb: Reservation[]) => {
 
     getById: async (id: string) => reservationsDb.find((dbReservation) => dbReservation.id === id),
 
-    // create: async (reservation: Reservation) => {
-    //   reservationsDb.push(reservation);
-    //   return reservation;
-    // },
+    create: async (reservation: Reservation) => {
+      reservationsDb.push(reservation);
+      return reservation;
+    },
 
     update: async (updates: ReservationUpdates, index: number) => {
       reservationsDb[index] = { ...reservationsDb[index], ...updates };
