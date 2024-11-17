@@ -14,7 +14,7 @@ export const newMenuSchema = z.object({
 export const fullMenuSchema = idSchema.merge(newMenuSchema);
 
 export const dishesUpdatesSchema = z.object({
-  dishes: z.array(z.string()).optional(),
+  dishes: z.array(z.string()),
 });
 
 export type NewMenu = z.infer<typeof newMenuSchema>;
