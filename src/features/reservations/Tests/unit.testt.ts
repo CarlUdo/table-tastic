@@ -9,7 +9,6 @@ import { DuplicateKeyError, NotFoundError } from "../../../libs";
 import type {
   NewReservation,
   Reservation,
-  ReservationUpdates,
 } from "../validation";
 
 test("Database is empty | getAll should return []", async () => {

@@ -2,7 +2,7 @@ import request from "supertest";
 import { deepEqual, equal } from "node:assert/strict";
 import test from "node:test";
 import { createApp, initApp } from "../../../app";
-import { Menu } from "../validation";
+import { Menu, NewMenu } from "../validation";
 import { createMenusRepository } from "../repository";
 import { createMenusFeature } from "../feature";
 import {
@@ -65,7 +65,7 @@ test("POST a new menu should create and return the menu", async () => {
 
   const app = createApp(menusRouter, reservationsRouter);
 
-  const newMenu = {
+  const newMenu: NewMenu = {
     name: "Breakfast Menu",
     dishes: ["Avocado Toast", "Beer"],
   };
