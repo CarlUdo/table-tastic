@@ -13,10 +13,19 @@ export const newReservationSchema = z.object({
   time: z.string().refine((val) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(val), {
     message: "Invalid time",
   }),
-  menuId: z.string(),
+});
+
+export const reservationUpdatesSchema = z.object({
+  date: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), { message: "Invalid date" }),
+  time: z.string().refine((val) => /^([01]\d|2[0-3]):([0-5]\d)$/.test(val), {
+    message: "Invalid time",
+  }),
 });
 
 export const fullReservationsSchema = idSchema.merge(newReservationSchema);
 
 export type NewReservation = z.infer<typeof newReservationSchema>;
 export type Reservation = z.infer<typeof fullReservationsSchema>;
+export type ReservationUpdates = z.infer<typeof reservationUpdatesSchema>
