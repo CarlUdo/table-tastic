@@ -1,4 +1,4 @@
-import type { Reservation } from "./validation";
+import type { Reservation, ReservationUpdates } from "./validation";
 
 export const createReservationsRepository = (reservationsDb: Reservation[]) => {
   return {
@@ -11,10 +11,10 @@ export const createReservationsRepository = (reservationsDb: Reservation[]) => {
     //   return reservation;
     // },
 
-    // update: async (dishes: string[], index: number) => {
-    //   reservationsDb[index] = { ...reservationsDb[index], dishes };
-    //   return reservationsDb[index];
-    // },
+    update: async (updates: ReservationUpdates, index: number) => {
+      reservationsDb[index] = { ...reservationsDb[index], ...updates };
+      return reservationsDb[index];
+    },
 
     remove: async (id: string) => {
       const removedReservation = reservationsDb.find((dbReservation) => dbReservation.id === id);
