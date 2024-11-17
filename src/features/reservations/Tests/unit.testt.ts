@@ -6,10 +6,7 @@ import { createReservationsDatabase } from "../mock-db";
 import { createService } from "../service";
 import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../constants";
 import { DuplicateKeyError, NotFoundError } from "../../../libs";
-import type {
-  NewReservation,
-  Reservation,
-} from "../validation";
+import type { NewReservation, Reservation } from "../validation";
 
 test("Database is empty | getAll should return []", async () => {
   const service = createService(createReservationsRepository([]));

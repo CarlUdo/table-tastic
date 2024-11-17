@@ -22,7 +22,9 @@ test("GET reservation by id should return the correct reservation", async () => 
 
   const validId = "f29f33f2-d230-4901-93d8-7145baf409a7";
 
-  const response = await request(app).get(`${RESERVATIONS_BASE_URL}/${validId}`);
+  const response = await request(app).get(
+    `${RESERVATIONS_BASE_URL}/${validId}`,
+  );
 
   const expectedReservation = {
     id: "f29f33f2-d230-4901-93d8-7145baf409a7",
@@ -40,13 +42,15 @@ test("POST a new reservation should create and return the reservation", async ()
   const app = initApp();
 
   const newReservation: NewReservation = {
-    "customerName": "The Hulk",
-    "tableNumber": 2,
-    "date": "2024-11-24",
-    "time": "19:00"
-};
+    customerName: "The Hulk",
+    tableNumber: 2,
+    date: "2024-11-24",
+    time: "19:00",
+  };
 
-  const response = await request(app).post(RESERVATIONS_BASE_URL).send(newReservation);
+  const response = await request(app)
+    .post(RESERVATIONS_BASE_URL)
+    .send(newReservation);
 
   equal(response.status, 201);
 
@@ -60,16 +64,16 @@ test("PATCH should update an existing reservation and return the updated reserva
   const validId = "f29f33f2-d230-4901-93d8-7145baf409a7";
 
   const updates = {
-    "date": "2024-12-10",
-    "time": "15:00"
+    date: "2024-12-10",
+    time: "15:00",
   };
 
   const updatedReservation = {
-    "id": validId,
-    "customerName": "Madonna",
-    "tableNumber": 6,
-    "date": "2024-12-10",
-    "time": "15:00",
+    id: validId,
+    customerName: "Madonna",
+    tableNumber: 6,
+    date: "2024-12-10",
+    time: "15:00",
   };
 
   const response = await request(app)
@@ -87,18 +91,22 @@ test("DELETE a reservation should remove the reservation and return it", async (
 
   const deletedMenu = {
     id: validId,
-    "customerName": "Madonna",
-    "tableNumber": 6,
-    "date": "2024-12-10",
-    "time": "13:00"
+    customerName: "Madonna",
+    tableNumber: 6,
+    date: "2024-12-10",
+    time: "13:00",
   };
 
-  const response = await request(app).delete(`${RESERVATIONS_BASE_URL}/${validId}`);
+  const response = await request(app).delete(
+    `${RESERVATIONS_BASE_URL}/${validId}`,
+  );
 
   equal(response.status, 200);
   deepEqual(response.body, deletedMenu);
 
-  const getResponse = await request(app).get(`${RESERVATIONS_BASE_URL}/${validId}`);
+  const getResponse = await request(app).get(
+    `${RESERVATIONS_BASE_URL}/${validId}`,
+  );
 
   equal(getResponse.status, 404);
 });
