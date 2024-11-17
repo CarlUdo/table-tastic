@@ -11,7 +11,7 @@ export const createApp = (menusRouter: Router, reservationsRouter: Router) => {
   }
 
   app.get("/status", (req, res) => {
-    res.status(200).json(); 
+    res.status(200).json();
   });
 
   app.use("/api/v1/menus", menusRouter);

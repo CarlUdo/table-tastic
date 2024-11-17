@@ -28,6 +28,6 @@ export const createRouter = (service: Service) => {
     const menu = await service.removeReservation(req.params.id);
     res.status(200).json(menu);
   });
-  
+
   return router;
 };

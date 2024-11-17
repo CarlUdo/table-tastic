@@ -6,10 +6,7 @@ import {
   type NewReservation,
 } from ".";
 import { v4 } from "uuid";
-import {
-  DuplicateKeyError,
-  NotFoundError,
-} from "../../libs";
+import { DuplicateKeyError, NotFoundError } from "../../libs";
 import { Repository } from "./repository";
 import { RESERVATION_NOT_FOUND } from ".";
 
@@ -35,13 +32,17 @@ export const createService = (db: Repository) => {
     updateReservation: async (rawData: ReservationUpdates, id: string) => {
       const updates = reservationUpdatesSchema.parse(rawData);
       const reservations = await db.getAll();
-      const index = reservations.findIndex((reservation) => reservation.id === id);
+      const index = reservations.findIndex(
+        (reservation) => reservation.id === id,
+      );
       if (index === -1) throw new NotFoundError(RESERVATION_NOT_FOUND);
       return await db.update(updates, index);
     },
 
     removeReservation: async (id: string) => {
-      const index = (await db.getAll()).findIndex((reservation) => reservation.id === id);
+      const index = (await db.getAll()).findIndex(
+        (reservation) => reservation.id === id,
+      );
       if (index === -1) throw new NotFoundError(RESERVATION_NOT_FOUND);
       return await db.remove(id);
     },

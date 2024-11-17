@@ -6,10 +6,7 @@ import {
 } from ".";
 import { Repository } from ".";
 import { v4 } from "uuid";
-import {
-  DuplicateKeyError,
-  NotFoundError,
-} from "../../libs";
+import { DuplicateKeyError, NotFoundError } from "../../libs";
 import { MENU_EXISTS, MENU_NOT_FOUND } from ".";
 
 export const createService = (db: Repository) => {

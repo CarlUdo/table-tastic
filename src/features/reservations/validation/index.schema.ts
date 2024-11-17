@@ -28,4 +28,4 @@ export const fullReservationsSchema = idSchema.merge(newReservationSchema);
 
 export type NewReservation = z.infer<typeof newReservationSchema>;
 export type Reservation = z.infer<typeof fullReservationsSchema>;
-export type ReservationUpdates = z.infer<typeof reservationUpdatesSchema>
+export type ReservationUpdates = z.infer<typeof reservationUpdatesSchema>;

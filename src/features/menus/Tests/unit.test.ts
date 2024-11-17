@@ -9,7 +9,7 @@ import type { Menu, NewMenu } from "../validation";
 import { MENU_EXISTS, MENU_NOT_FOUND } from "../constants";
 
 test("Database is empty | getAll should return []", async () => {
-  const service = createService(createMenusRepository([])); 
+  const service = createService(createMenusRepository([]));
 
   const result = await service.getAllMenus();
 
@@ -18,7 +18,7 @@ test("Database is empty | getAll should return []", async () => {
 
 test("getAll should return all menus", async () => {
   const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
+  const service = createService(createMenusRepository(db));
 
   const result = await service.getAllMenus();
 
@@ -27,7 +27,7 @@ test("getAll should return all menus", async () => {
 
 test("getMenu should return the correct menu by id", async () => {
   const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
+  const service = createService(createMenusRepository(db));
 
   const validId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
 
@@ -41,31 +41,27 @@ test("getMenu should return the correct menu by id", async () => {
 
 test("getMenu should throw NotFoundError if menu not found", async () => {
   const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
+  const service = createService(createMenusRepository(db));
 
   const invalidId = "invalid-id";
 
-  await assert.rejects( 
-    async () => { 
-      await service.getMenu(invalidId); 
-    }, new NotFoundError(MENU_NOT_FOUND)
-  );
+  await assert.rejects(async () => {
+    await service.getMenu(invalidId);
+  }, new NotFoundError(MENU_NOT_FOUND));
 });
 
 test("addMenu should throw DuplicateKeyError if menu already exists", async () => {
   const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
+  const service = createService(createMenusRepository(db));
 
   const newMenu: NewMenu = {
     name: "Dinner Menu",
     dishes: ["Chicken wings"],
   };
 
-  await assert.rejects( 
-    async () => { 
-      await service.addMenu(newMenu); 
-    }, new DuplicateKeyError(MENU_EXISTS)
-  );  
+  await assert.rejects(async () => {
+    await service.addMenu(newMenu);
+  }, new DuplicateKeyError(MENU_EXISTS));
 });
 
 test("addMenu should add a new menu", async () => {
@@ -103,38 +99,41 @@ test("update should modify an existing menu", async () => {
   const service = createService(createMenusRepository(db));
 
   const validId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
-  
+
   const updatedMenu: NewMenu = {
     name: "Breakfast Menu",
-    dishes: ["Pancakes", "Omelette", "Nutella pancakes", "Strawberry milkshake"],
+    dishes: [
+      "Pancakes",
+      "Omelette",
+      "Nutella pancakes",
+      "Strawberry milkshake",
+    ],
   };
 
   const result = await service.updateMenu(updatedMenu, validId);
 
-  deepEqual(result, { id: validId, ...updatedMenu });  
+  deepEqual(result, { id: validId, ...updatedMenu });
 });
 
 test("update should reject if menu not found", async () => {
   const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
+  const service = createService(createMenusRepository(db));
 
   const invalidId = "9de3faf7-36f3-4449-b4b5-7c3393f00e17";
 
   const menu: NewMenu = {
     name: "Breakfast Menu",
     dishes: ["Pancakes", "Omelette"],
-  };  
+  };
 
-  await assert.rejects( 
-    async () => { 
-      await service.updateMenu(menu, invalidId); 
-    }, new NotFoundError(MENU_NOT_FOUND)
-  );
+  await assert.rejects(async () => {
+    await service.updateMenu(menu, invalidId);
+  }, new NotFoundError(MENU_NOT_FOUND));
 });
 
 test("remove should delete a menu by id", async () => {
   const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
+  const service = createService(createMenusRepository(db));
 
   const validId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
 
@@ -144,22 +143,18 @@ test("remove should delete a menu by id", async () => {
 
   await service.removeMenu(validId);
 
-  await assert.rejects( 
-    async () => { 
-      await service.getMenu(validId); 
-    }, new NotFoundError(MENU_NOT_FOUND)
-  );
+  await assert.rejects(async () => {
+    await service.getMenu(validId);
+  }, new NotFoundError(MENU_NOT_FOUND));
 });
 
 test("remove should reject if menu not found", async () => {
   const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
-  
+  const service = createService(createMenusRepository(db));
+
   const invalidId = "9de3faf7-36f3-4449-b4b5-7c3393f09e10";
 
-  await assert.rejects( 
-    async () => { 
-      await service.getMenu(invalidId); 
-    }, new NotFoundError(MENU_NOT_FOUND)
-  );
+  await assert.rejects(async () => {
+    await service.getMenu(invalidId);
+  }, new NotFoundError(MENU_NOT_FOUND));
 });

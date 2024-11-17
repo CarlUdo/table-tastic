@@ -4,7 +4,8 @@ export const createReservationsRepository = (reservationsDb: Reservation[]) => {
   return {
     getAll: async () => reservationsDb,
 
-    getById: async (id: string) => reservationsDb.find((dbReservation) => dbReservation.id === id),
+    getById: async (id: string) =>
+      reservationsDb.find((dbReservation) => dbReservation.id === id),
 
     create: async (reservation: Reservation) => {
       reservationsDb.push(reservation);
@@ -17,11 +18,15 @@ export const createReservationsRepository = (reservationsDb: Reservation[]) => {
     },
 
     remove: async (id: string) => {
-      const removedReservation = reservationsDb.find((dbReservation) => dbReservation.id === id);
-      const updatedReservationsDb = reservationsDb.filter((dbReservation) => dbReservation.id !== id);
+      const removedReservation = reservationsDb.find(
+        (dbReservation) => dbReservation.id === id,
+      );
+      const updatedReservationsDb = reservationsDb.filter(
+        (dbReservation) => dbReservation.id !== id,
+      );
       reservationsDb.length = 0;
       reservationsDb.push(...updatedReservationsDb);
-      return removedReservation ;
+      return removedReservation;
     },
   };
 };

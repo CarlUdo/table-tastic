@@ -5,7 +5,11 @@ import { createApp, initApp } from "../../../app";
 import { Menu } from "../validation";
 import { createMenusRepository } from "../repository";
 import { createMenusFeature } from "../feature";
-import { createReservationsDatabase, createReservationsFeature, createReservationsRepository } from "../../reservations";
+import {
+  createReservationsDatabase,
+  createReservationsFeature,
+  createReservationsRepository,
+} from "../../reservations";
 
 const MENUS_BASE_URL = "/api/v1/menus";
 
@@ -54,7 +58,9 @@ test("POST a new menu should create and return the menu", async () => {
   const menusDb = createMenusRepository(initialMenus);
   const menusRouter = createMenusFeature(menusDb).router;
 
-  const reservationsDb = createReservationsRepository(createReservationsDatabase());
+  const reservationsDb = createReservationsRepository(
+    createReservationsDatabase(),
+  );
   const reservationsRouter = createReservationsFeature(reservationsDb).router;
 
   const app = createApp(menusRouter, reservationsRouter);
@@ -67,7 +73,7 @@ test("POST a new menu should create and return the menu", async () => {
   const response = await request(app).post(MENUS_BASE_URL).send(newMenu);
 
   equal(response.status, 201);
-  
+
   equal(response.body.name, newMenu.name);
   deepEqual(response.body.dishes, newMenu.dishes);
 });
