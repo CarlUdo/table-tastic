@@ -1,10 +1,19 @@
-// import test from "node:test";
-// import { deepEqual } from "node:assert/strict";
-// import { rejects } from "node:assert";
+import test from "node:test";
+import { deepEqual } from "node:assert/strict";
+import { createService } from "../service";
+import { createReservationsRepository } from "../repository";
 // import { createReservationsDb } from "../../src/services/reservations";
 // import { reservationsDb as db, Reservation } from "../../src/db/reservations";
 
 // import { FULLY_BOOKED, RESERVATION_NOT_FOUND } from "../../src/libs";
+
+test("Database is empty | getAll should return []", async () => {
+  const service = createService(createReservationsRepository([]));
+
+  const result = await service.getAllReservations();
+
+  deepEqual(result, []);
+});
 
 // test("getAll should return all reservations", async () => {
 //   const result = await createReservationsDb.getAll();
