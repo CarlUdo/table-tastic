@@ -24,12 +24,12 @@ export const createService = (db: Repository) => {
     },
 
     addMenu: async (rawData: NewMenu) => {
-      const parsedMenu = newMenuSchema.parse(rawData);
+      const menu = newMenuSchema.parse(rawData);
       const exists = (await db.getAll()).some(
-        (dbMenu) => dbMenu.name === parsedMenu.name,
+        (dbMenu) => dbMenu.name === menu.name,
       );
       if (exists) throw new DuplicateKeyError(MENU_EXISTS);
-      return db.create({ id: v4(), ...parsedMenu });
+      return db.create({ id: v4(), ...menu });
     },
 
     updateMenu: async (rawData: DishesUpdates, id: string) => {
