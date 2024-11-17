@@ -1,7 +1,6 @@
 import {
   FULLY_BOOKED,
   newReservationSchema,
-  RESERVATIONS_WRONG_INPUT,
   ReservationUpdates,
   reservationUpdatesSchema,
   type NewReservation,
