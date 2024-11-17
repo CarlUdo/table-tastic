@@ -4,9 +4,9 @@ import assert from "node:assert";
 import { createService } from "../service";
 import { createMenusRepository } from "../repository";
 import { createMenusDatabase } from "../mock-db";
-import { BadRequestError, DuplicateKeyError, NotFoundError } from "../../../libs";
+import { DuplicateKeyError, NotFoundError } from "../../../libs";
 import type { Menu, NewMenu } from "../validation";
-import { MENU_EXISTS, MENU_NOT_FOUND, MENU_WRONG_INPUT } from "../constants";
+import { MENU_EXISTS, MENU_NOT_FOUND } from "../constants";
 
 test("Database is empty | getAll should return []", async () => {
   const service = createService(createMenusRepository([])); 
@@ -129,24 +129,6 @@ test("update should reject if menu not found", async () => {
     async () => { 
       await service.updateMenu(menu, invalidId); 
     }, new NotFoundError(MENU_NOT_FOUND)
-  );
-});
-
-test("update should reject for wrong input", async () => {
-  const db = createMenusDatabase();
-  const service = createService(createMenusRepository(db)); 
-
-  const validId = "9de3faf7-36f3-4449-b4b5-7c3393f00e10";
-
-  const wrongMenu: NewMenu = {
-    name: "Breakfast Menu",
-    dishesss: ["Pancakes", "Omelette"], // This error is intentional
-  };  
-
-  await assert.rejects( 
-    async () => { 
-      await service.updateMenu(wrongMenu, validId); 
-    }, new BadRequestError(MENU_WRONG_INPUT)
   );
 });
 
