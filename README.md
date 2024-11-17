@@ -12,9 +12,9 @@ The planning of the project can be found here:
 
 [Planning board](https://github.com/users/CarlUdo/projects/2/views/1)
 
-After finishing, the folder structure looks like this:
+After finishing, the code architecture looks like this:
 
-![Folder structure](src/assets/table-tastic-folder-structure.png)
+![Code architecture](src/assets/table-tastic-folder-structure.png)
 
 ## Project requirements
 
